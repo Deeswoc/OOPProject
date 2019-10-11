@@ -1,4 +1,8 @@
+import javax.swing.*;
 
-public class LoginWindow {
-
+public class LoginWindow extends JPanel{
+	JTextField username;
+	JTextField password;
+	JButton
+	
 }
