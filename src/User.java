@@ -5,8 +5,11 @@ public class User {
 	private Level accessLevel;
 	
 	private static User[] users = new User[2];
-	users[0] = new User("Manager", "12345678");
-	users[1] = new User("Customer", "12345678");
+	
+	private static void setUsers() {
+		users[0] = new User("Manager", "12345678");
+		users[1] = new User("Customer", "12345678");
+	}
 	
 	private User(String username, String password) {
 		this.username = username;
@@ -25,7 +28,8 @@ public class User {
 	private boolean checkCredentials(String username, String password) {
 		if(username == this.username && password == this.password) {
 			return true;
-		}
+		}else
+			return false;
 	}
 	public String getUsername() {
 		return username;
