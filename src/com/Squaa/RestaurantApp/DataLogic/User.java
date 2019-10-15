@@ -1,22 +1,22 @@
 package com.Squaa.RestaurantApp.DataLogic;
+import java.util.Arrays;
 
 public class User {
 	private String username;
-	private String password;
+	private char[] password;
 	private Level accessLevel;
 	
-	private static User[] users = new User[2];
-	
-	private static void setUsers() {
-		users[0] = new User("Manager", "12345678");
-		users[1] = new User("Customer", "12345678");
-	}
-	
-	private User(String username, String password) {
+	private static User[] users = new User[]{
+			new User("Manager", new char[] {'1', '2', '3', '4', '5', '6'}),
+			new User("Customer", new char[]{'1', '2', '3', '4', '5', '6'})
+	};
+
+	private User(String username, char[] password) {
 		this.username = username;
 		this.password = password;
 	}
-	public static Level authorize(String username, String password) {
+
+	public static Level authorize(String username, char[] password) {
 		if(users[0].checkCredentials(username, password)) {
 			return users[0].getAccessLevel();
 		} else if(users[1].checkCredentials(username, password)) {
@@ -26,8 +26,8 @@ public class User {
 		}
 	}
 	
-	private boolean checkCredentials(String username, String password) {
-		if(username.equals(this.username) && password.equals(this.password)) {
+	private boolean checkCredentials(String username, char[] password) {
+		if(username.equals(this.username) && Arrays.equals(password, this.password)) {
 			return true;
 		}else
 			return false;
@@ -38,10 +38,10 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getPassword() {
+	public char[] getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public void setPassword(char[] password) {
 		this.password = password;
 	}
 	public Level getAccessLevel() {
