@@ -18,6 +18,7 @@ public class ManagerController implements  FrameController, AuthListener {
     public void updateFrame(JPanel view) {
         window.removeAll();
         window.add(view);
+        window.revalidate();
     }
 
     @Override

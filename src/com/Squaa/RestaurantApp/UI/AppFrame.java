@@ -9,8 +9,6 @@ import sun.swing.SwingAccessor;
 import javax.swing.*;
 
 public class AppFrame extends JFrame {
-    private Level accessLevel;
-    private JPanel view;
     public AppFrame(){
         super("Main");
         setSize(600, 500);
@@ -21,10 +19,5 @@ public class AppFrame extends JFrame {
         add(loginPanel);
         setLocationRelativeTo(null);
         setVisible(true);
-    }
-
-    public void changeView(JPanel view){
-        this.remove(this.view);
-        this.add(view);
     }
 }

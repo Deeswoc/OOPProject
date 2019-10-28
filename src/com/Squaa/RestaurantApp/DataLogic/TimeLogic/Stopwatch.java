@@ -6,35 +6,32 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Stopwatch {
-    private static boolean running = false;
-    private static int interval = 0;
-    private static Timer timer = new Timer();
-    private static int delay = 1000;
-    private static int period = 1000;
-    private static ArrayList<TimerListener> timerListeners = new ArrayList<>();
-    private static ArrayList<TimeChangedListener> timeChangedListeners = new ArrayList<>();
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Input seconds => : ");
-        String secs = sc.nextLine();
+    private boolean running = false;
+    private int interval = 0;
+    private Timer timer;
+    private final int delay = 1000;
+    private final int period = 1000;
+    private ArrayList<TimerListener> timerListeners = new ArrayList<>();
+    private ArrayList<TimeChangedListener> timeChangedListeners = new ArrayList<>();
+
+    public Stopwatch(){
         timer = new Timer();
-        interval = Integer.parseInt(secs);
-        System.out.println(secs);
     }
 
-    public static void addTime(int seconds){
+    public void addTime(int seconds){
         interval+=seconds;
     }
 
-    public static int startTimer(int time){
-        if(interval==0) {
+    public int startTimer(int time){
+        if(interval>=0) {
+            running = true;
             interval = time;
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     running = true;
                     int sec = count();
-                    notifiyTimeChanged();
+                    notifyTimeChanged();
                     if(sec == 0)
                         alarm();
                 }
@@ -44,7 +41,8 @@ public class Stopwatch {
         return 0;
     }
 
-    private static int count(){
+
+    private int count(){
             if (interval == 1) {
                 timer.cancel();
                 running = false;
@@ -53,13 +51,13 @@ public class Stopwatch {
             return --interval;
     }
 
-    private static void notifiyTimeChanged(){
+    private void notifyTimeChanged(){
         for (TimeChangedListener sl:timeChangedListeners) {
             sl.onChange(interval);
         }
     }
 
-    private static void alarm() {
+    private void alarm() {
         {
             timer.cancel();
             for (TimerListener cdl: timerListeners)
@@ -69,11 +67,11 @@ public class Stopwatch {
         }
     }
 
-    public static void addTimerLister(TimerListener timerListener){
+    public void addTimerLister(TimerListener timerListener){
         timerListeners.add(timerListener);
     }
 
-    public static void addTimeChangedListener(TimeChangedListener timeChangedListener){
+    public void addTimeChangedListener(TimeChangedListener timeChangedListener){
         timeChangedListeners.add(timeChangedListener);
     }
 }

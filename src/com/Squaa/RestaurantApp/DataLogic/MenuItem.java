@@ -2,11 +2,11 @@ package com.Squaa.RestaurantApp.DataLogic;
 
 public class MenuItem extends Dish{
 	private int cost;
-	private int preptime;
-	public MenuItem(int cost, int preptime) {
+	private int prepTime;
+	public MenuItem(int cost, int prepTime) {
 		super();
 		this.cost = cost;
-		this.preptime = preptime;
+		this.prepTime = prepTime;
 	}
 	public int getCost() {
 		return cost;
@@ -14,11 +14,10 @@ public class MenuItem extends Dish{
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-	public int getPreptime() {
-		return preptime;
+	public int getPrepTime() {
+		return prepTime;
 	}
-	public void setPreptime(int preptime) {
-		this.preptime = preptime;
+	public void setPrepTime(int prepTime) {
+		this.prepTime = prepTime;
 	}
-
 }
