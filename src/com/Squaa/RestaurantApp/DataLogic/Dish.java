@@ -1,8 +1,8 @@
 package com.Squaa.RestaurantApp.DataLogic;
 
 public class Dish extends MenuItem {
-    public Dish(int cost, int prepTime, int id, boolean alcoholic) {
-		super(cost, prepTime, id, alcoholic);
+    public Dish(int cost, int prepTime, int id) {
+		super(cost, prepTime, id);
 		// TODO Auto-generated constructor stub
 	}
 
