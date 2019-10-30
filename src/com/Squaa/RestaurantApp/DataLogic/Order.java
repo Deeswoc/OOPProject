@@ -16,12 +16,12 @@ public class Order {
 		
 		return total;
 	}
-	public int newtime()
+	public int newTime()
 	{
 		int total = 0;
 		for(int i = 0;i<order.size();i++)
 		{
-			total+=order.get(i).getPreptime();
+			total+=order.get(i).getPrepTime();
 		}
 		return total;
 	}

@@ -1,5 +1,6 @@
 package com.Squaa.RestaurantApp.UI;
 
+import com.Squaa.RestaurantApp.Controllers.AuthController;
 import com.Squaa.RestaurantApp.DataLogic.AuthListener;
 import com.Squaa.RestaurantApp.DataLogic.Level;
 import com.Squaa.RestaurantApp.DataLogic.User;
@@ -15,7 +16,7 @@ public class LoginPanel extends  JPanel{
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JButton login;
-    private AuthListener authListener;
+    private AuthController authController;
     LoginPanel(){
         username = new JTextField("", 10);
         password = new JPasswordField("", 10);
@@ -27,11 +28,7 @@ public class LoginPanel extends  JPanel{
             public void actionPerformed(ActionEvent e) {
                 char[] enteredPassword = password.getPassword();
                 String enteredUsername = username.getText();
-                Level level = User.authorize(enteredUsername, enteredPassword);
-                if(level!= Level.UNATHORIZED){
-                    authListener.onAuth(level);
-                    System.out.println("User is Authorized");
-                }
+                authController.authorize(enteredUsername, enteredPassword);
             }
         });
         setLayout(new GridBagLayout());
@@ -40,9 +37,10 @@ public class LoginPanel extends  JPanel{
         add(passwordLabel);
         add(password);
         add(login);
+
     }
 
-    public void addAuthListener(AuthListener authListener){
-        this.authListener = authListener;
+    public void addAuthController(AuthController authController){
+        this.authController = authController;
     }
 }
