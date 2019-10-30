@@ -1,7 +1,12 @@
 package com.Squaa.RestaurantApp.DataLogic;
 
-public class Dish {
-    public static void main(String args[]){
+public class Dish extends MenuItem {
+    public Dish(int cost, int prepTime, int id, boolean alcoholic) {
+		super(cost, prepTime, id, alcoholic);
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void main(String args[]){
         System.out.println("Hello World");
     }
 

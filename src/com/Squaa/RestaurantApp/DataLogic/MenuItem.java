@@ -1,12 +1,16 @@
 package com.Squaa.RestaurantApp.DataLogic;
 
-public class MenuItem extends Dish{
+public class MenuItem {
 	private int cost;
 	private int prepTime;
-	public MenuItem(int cost, int prepTime) {
+	private int id;
+	private boolean alcoholic;
+	public MenuItem(int cost, int prepTime, int id, boolean alcoholic) {
 		super();
 		this.cost = cost;
 		this.prepTime = prepTime;
+		this.id = id;
+		this.alcoholic = alcoholic;
 	}
 	public int getCost() {
 		return cost;
@@ -19,5 +23,22 @@ public class MenuItem extends Dish{
 	}
 	public void setPrepTime(int prepTime) {
 		this.prepTime = prepTime;
+	}
+	
+	public int getid() 
+	{
+		return id;
+	}
+	public void setid(int id) 
+	{
+		this.id = id;
+	}
+	public boolean getalcoholic() 
+	{
+		return alcoholic;
+	}
+	public void setalchoholic(boolean alcoholic) 
+	{
+		this.alcoholic= alcoholic;
 	}
 }
