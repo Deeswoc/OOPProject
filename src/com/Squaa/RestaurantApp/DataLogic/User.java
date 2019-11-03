@@ -23,7 +23,7 @@ public class User {
 		} else if(users[1].checkCredentials(username, password)) {
 			return users[1].getAccessLevel();
 		} else {
-			return Level.UNATHORIZED;
+			return Level.UNAUTHORIZED;
 		}
 	}
 	

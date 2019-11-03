@@ -23,20 +23,18 @@ public class database {
 	}
 	
 	
-	public void addDish(int ID,String name2,int preptime,int amount,double cost) 
+	public void addDish(String name, int preptime,double cost)
 	{
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
-		String dish_name =String.valueOf(name2);
-		PreparedStatement prep = con.prepareStatement("INSERT INTO Dish values(?,?,?,?,?);");
-		prep.setInt(1, ID);
-		prep.setString(2, dish_name);
-		prep.setInt(3, preptime);
-		prep.setInt(4, amount);
-		prep.setDouble(5, cost);
+		String dish_name =String.valueOf(name);
+		PreparedStatement prep = con.prepareStatement("INSERT INTO Dish values(null, ?, ?, ?);");
+		prep.setString(1, dish_name);
+		prep.setInt(2, preptime);
+		prep.setDouble(3, cost);
 		prep.execute();
 		}
 		catch(SQLException e)
@@ -44,14 +42,19 @@ public class database {
 			e.printStackTrace();
 		}
 	}
-	public void updateDish(int ID,String name2,int preptime,int amount,double cost) 
+	public void updateDish(int ID, String name, int preptime, int amount,double cost)
 	{
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
-		PreparedStatement prep = con.prepareStatement("UPDATE Dish SET name ='"+name2+"',time ="+preptime+",quantity="+amount+",price ="+cost+" where id ="+ID);
+		PreparedStatement prep = con.prepareStatement(
+			"UPDATE Dish SET " +
+					"time =" + preptime +", " +
+					"quantity = " + amount + "," +
+					"price = " + cost +" " +
+					"where id ="+ID);
 		prep.execute();
 		}
 		catch(SQLException e)
@@ -87,7 +90,12 @@ public class database {
 					System.out.println("Building the dish table\n");
 					//need to build table
 					Statement state2 = con.createStatement();
-					state2.execute("CREATE TABLE Dish(id identity(100,1),"+ "name varchar(30)," + "time integer,"+ "quantity integer,"+"price numeric,"+"primary key(id));");
+					state2.execute(
+					"CREATE TABLE Dish(" +
+							"id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+							"name VARCHAR(30), " +
+							"preptime INTEGER, "+
+							"price INTEGER);");
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
