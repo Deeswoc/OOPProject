@@ -7,13 +7,14 @@ public class User {
 	private Level accessLevel;
 	
 	private static User[] users = new User[]{
-			new User("Manager", new char[] {'1', '2', '3', '4', '5', '6'}),
-			new User("Customer", new char[]{'1', '2', '3', '4', '5', '6'})
+			new User("Manager", new char[] {'1', '2', '3', '4', '5', '6'}, Level.ADMIN),
+			new User("Customer", new char[]{'1', '2', '3', '4', '5', '6'}, Level.CUSTOMER)
 	};
 
-	private User(String username, char[] password) {
+	private User(String username, char[] password, Level accessLevel) {
 		this.username = username;
 		this.password = password;
+		this.accessLevel = accessLevel;
 	}
 
 	public static Level authorize(String username, char[] password) {

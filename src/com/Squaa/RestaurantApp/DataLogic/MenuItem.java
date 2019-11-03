@@ -4,7 +4,7 @@ public class MenuItem {
 	private int cost;
 	private int prepTime;
 	private int id;
-	
+	private String name;
 	public MenuItem(int cost, int prepTime, int id) {
 		super();
 		this.cost = cost;
@@ -24,8 +24,16 @@ public class MenuItem {
 	public void setPrepTime(int prepTime) {
 		this.prepTime = prepTime;
 	}
-	
-	public int getid() 
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getid()
 	{
 		return id;
 	}

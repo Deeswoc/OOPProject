@@ -20,8 +20,8 @@ public class LoginPanel extends  JPanel{
     LoginPanel(){
         username = new JTextField("", 10);
         password = new JPasswordField("", 10);
-        usernameLabel = new JLabel("Username");
-        passwordLabel = new JLabel("Password");
+        usernameLabel = new JLabel("Username:");
+        passwordLabel = new JLabel("Password:");
         login = new JButton("Login");
         login.addActionListener(new ActionListener() {
             @Override
@@ -32,11 +32,25 @@ public class LoginPanel extends  JPanel{
             }
         });
         setLayout(new GridBagLayout());
-        add(usernameLabel);
-        add(username);
-        add(passwordLabel);
-        add(password);
-        add(login);
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.gridy = 0;
+        gc.gridx = 0;
+        gc.weightx = 1;
+        add(usernameLabel, gc);
+        gc.gridy = 0;
+        gc.gridx = 1;
+        gc.weightx = 1;
+        add(username, gc);
+        gc.gridy = 1;
+        gc.gridx = 0;
+        add(passwordLabel, gc);
+        gc.gridy = 1;
+        gc.gridx = 1;
+        add(password, gc);
+        gc.gridy = 2;
+        gc.gridx = 0;
+        gc.gridwidth = 2;
+        add(login, gc);
 
     }
 
