@@ -13,7 +13,7 @@ public class App {
 
     public static void main(String[] args){
         State state = State.getApplicationState();
-        JFrame window = new AppFrame();
+        AppFrame window = new AppFrame();
 
         ManagerController controller = new ManagerController(window);
         state.addAuthListener(controller);

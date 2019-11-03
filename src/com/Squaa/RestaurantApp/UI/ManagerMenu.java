@@ -3,8 +3,12 @@ package com.Squaa.RestaurantApp.UI;
 import com.Squaa.RestaurantApp.Controllers.FrameController;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ManagerMenu extends JMenuBar {
+
+
 
     private JMenu menu;
     private JMenuItem addItem;
@@ -20,6 +24,13 @@ public class ManagerMenu extends JMenuBar {
         searchItems = new JMenuItem("Search");
         viewItems = new JMenuItem("View Menu");
         menu = new JMenu("Menu");
+
+        addItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frameController.updateFrame(new MenuItemForm());
+            }
+        });
 
         add(menu);
         menu.add(addItem);
