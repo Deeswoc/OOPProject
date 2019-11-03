@@ -42,7 +42,14 @@ public class menu {
 	public static void main(String args[])
 	{
 		database data  = new database();
+		data.addDish("margarita", 5, 400);
     	 ResultSet rs;
+<<<<<<< HEAD
+=======
+
+
+    	 /*try {
+>>>>>>> branch 'dev' of https://github.com/Deeswoc/OOPproject
 			data.addDish(1, "margarita", 5, 2, 500.00);
 		
     	 //data.updateDish(1,"pizza", 2, 10, 500.00);

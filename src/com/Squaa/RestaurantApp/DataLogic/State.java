@@ -9,7 +9,7 @@ public class State {
     private static State applicationState;
     private State(){
         authListeners = new ArrayList<>();
-        level = Level.UNATHORIZED;
+        level = Level.UNAUTHORIZED;
     }
 
     public static State getApplicationState(){
