@@ -72,6 +72,7 @@ public class database {
 		try {
 		PreparedStatement prep = con.prepareStatement(
 			"DELETE FROM Dish where id ="+ID);
+		System.out.println(ID+"Have been deleted.");
 		prep.execute();
 		}
 		catch(SQLException e)
