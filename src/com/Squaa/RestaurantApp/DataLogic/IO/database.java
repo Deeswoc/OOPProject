@@ -18,7 +18,7 @@ public class database {
 			getConnection();
 		}
 		Statement state = con.createStatement();
-		ResultSet res = state.executeQuery("Select*FROM user");
+		ResultSet res = state.executeQuery("Select*FROM Dish");
 		return res;
 	}
 	
@@ -51,14 +51,14 @@ public class database {
 		{
 			hasData = true;
 			Statement state = con.createStatement();
-			ResultSet res = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table'AND name='user'");
+			ResultSet res = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table'AND name='Dish'");
 			if(!res.next())
 			{
 				System.out.println("Building the user table with pre populated values\n");
 				
 				//need to build table
 				Statement state2 = con.createStatement();
-				state2.execute("CREATE TABLE user(id identity(100,1),"+ "name varchar(30)," + "time integer,"+ "quantity integer,"+"price numeric,"+"primary key(id));");
+				state2.execute("CREATE TABLE Dish(id identity(100,1),"+ "name varchar(30)," + "time integer,"+ "quantity integer,"+"price numeric,"+"primary key(id));");
 				//inserting some sample data
 				/*PreparedStatement prep = con.prepareStatement("INSERT INTO user values(?,?,?);");
 				prep.setInt(1, 23);
@@ -81,7 +81,7 @@ public class database {
 		{
 			getConnection();
 		}
-		PreparedStatement prep = con.prepareStatement("INSERT INTO user values(?,?,?);");
+		PreparedStatement prep = con.prepareStatement("INSERT INTO Dish values(?,?,?);");
 		prep.setString(2,firstname);
 		prep.setString(3,lastname);
 		prep.execute();
