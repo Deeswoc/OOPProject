@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class database {
+public class Database {
 	private static Connection con=null;
 	private static boolean hasData = false;
 	
