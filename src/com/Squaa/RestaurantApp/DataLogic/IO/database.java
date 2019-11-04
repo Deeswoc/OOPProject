@@ -62,6 +62,21 @@ public class database {
 			e.printStackTrace();
 		}
 	}
+	public void search(int ID)
+	{
+		if(con==null)
+		{
+			getConnection();
+		}
+		try {
+			PreparedStatement prep = con.prepareStatement("SELECT*FROM Dish where id = "+ID);
+			prep.execute();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	public void deleteDish(int ID)
 	{
