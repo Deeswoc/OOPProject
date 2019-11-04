@@ -11,7 +11,7 @@ public class database {
 	private static Connection con=null;
 	private static boolean hasData = false;
 	
-	public ResultSet displayUsers() throws ClassNotFoundException, SQLException
+	public void getDishes() throws ClassNotFoundException, SQLException
 	{
 		if(con==null)
 		{
@@ -19,7 +19,10 @@ public class database {
 		}
 		Statement state = con.createStatement();
 		ResultSet res = state.executeQuery("Select*FROM Dish");
-		return res;
+		while(res.next())
+		{
+			System.out.println(res.getInt("id") + " " + res.getString("name") + " " + res.getInt("time") + " minutes" + " "+ res.getDouble("price"));
+		}
 	}
 	
 	
@@ -56,6 +59,7 @@ public class database {
 					"price = " + cost +" " +
 					"where id ="+ID);
 		prep.execute();
+
 		}
 		catch(SQLException e)
 		{
