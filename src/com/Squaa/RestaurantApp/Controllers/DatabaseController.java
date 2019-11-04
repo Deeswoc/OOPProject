@@ -1,27 +1,30 @@
 package com.Squaa.RestaurantApp.Controllers;
-import java.util.Scanner;
 
-import com.Squaa.RestaurantApp.DataLogic.IO.database;
+import com.Squaa.RestaurantApp.DataLogic.IO.Database;
 
 public class DatabaseController {
-	private database db;
+	private Database db;
 	
-	DatabaseController	
-	this.database db = new database();
-	
+	public DatabaseController() {
+		db = new Database();
+	}
 	
 void addDish(String name,int price, int Preptime) {
 	
 	db.addDish(name, Preptime, price);
 	}
 
-void deleteDish(int id)
-{ 
-	db.deleteDish(id);
-}
+	void deleteDish(int id)
+	{ 
+		db.deleteDish(id);
+	}
+	
+	MenuItem getDishes() {
+		
+	}
 
-void displayDish()
-{
- db.displayUsers()
-}
+	MenuItem getDish()
+	{
+	 
+	}
 }
