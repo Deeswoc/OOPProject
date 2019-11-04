@@ -6,6 +6,7 @@ import com.Squaa.RestaurantApp.DataLogic.IO.database;
 public class DatabaseController {
 	private database db;
 	
+	DatabaseController	
 	this.database db = new database();
 	
 	
@@ -21,6 +22,6 @@ void deleteDish(int id)
 
 void displayDish()
 {
- db.
+ db.displayUsers()
 }
 }
