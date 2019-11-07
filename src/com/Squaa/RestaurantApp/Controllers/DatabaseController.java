@@ -1,6 +1,7 @@
 package com.Squaa.RestaurantApp.Controllers;
 
 import com.Squaa.RestaurantApp.DataLogic.IO.Database;
+import com.Squaa.RestaurantApp.DataLogic.MenuItem;
 
 public class DatabaseController {
 	private Database db;
@@ -9,9 +10,9 @@ public class DatabaseController {
 		db = new Database();
 	}
 	
-void addDish(String name,int price, int Preptime) {
+void addDish(String name,int price, int prepTime) {
 	
-	db.addDish(name, Preptime, price);
+	db.addDish(name, prepTime, price);
 	}
 
 	void deleteDish(int id)
@@ -20,11 +21,11 @@ void addDish(String name,int price, int Preptime) {
 	}
 	
 	MenuItem getDishes() {
-		
+		return  null;
 	}
 
 	MenuItem getDish()
 	{
-	 
+	 return null;
 	}
 }

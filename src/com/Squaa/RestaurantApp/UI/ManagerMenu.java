@@ -32,7 +32,14 @@ public class ManagerMenu extends JMenuBar {
             }
         });
 
-        add(menu);
+        editItem.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               frameController.updateFrame(new EditMenuItemForm());
+           }
+       });
+
+                add(menu);
         menu.add(addItem);
         menu.add(editItem);
         menu.add(deleteItem);

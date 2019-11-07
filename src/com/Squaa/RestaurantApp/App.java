@@ -1,5 +1,6 @@
 package com.Squaa.RestaurantApp;
 
+import com.Squaa.RestaurantApp.Controllers.AuthController;
 import com.Squaa.RestaurantApp.Controllers.ManagerController;
 import com.Squaa.RestaurantApp.DataLogic.Level;
 import com.Squaa.RestaurantApp.DataLogic.State;
@@ -15,7 +16,8 @@ public class App {
         State state = State.getApplicationState();
         AppFrame window = new AppFrame();
 
-        ManagerController controller = new ManagerController(window);
+        AuthController controller= new AuthController();
+        controller.setWindow(window);
         state.addAuthListener(controller);
     }
 }

@@ -9,6 +9,13 @@ public class MenuTableModel  extends AbstractTableModel {
     private ArrayList<MenuItem> dataset;
     private String[] columnNames = {"Dish", "Cost", "Prep Time"};
 
+    public MenuTableModel(ArrayList<MenuItem> menu){
+
+        this.dataset = menu;
+    }
+
+
+
     @Override
     public int getRowCount() {
         return dataset.size();
@@ -38,6 +45,10 @@ public class MenuTableModel  extends AbstractTableModel {
         }
         return null;
     }
+
+
+
+
 
     public void setDataset(ArrayList<MenuItem> dataset){
         this.dataset = dataset;

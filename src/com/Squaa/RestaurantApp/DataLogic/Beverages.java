@@ -3,8 +3,8 @@ package com.Squaa.RestaurantApp.DataLogic;
 public class Beverages extends MenuItem{
 private boolean alcoholic;
 
-	public Beverages(int cost, int prepTime, int id) {
-		super(cost, prepTime, id);
+	public Beverages(String name, int cost, int prepTime, int id) {
+		super(name, cost, prepTime, id);
 		// TODO Auto-generated constructor stub
 	}
 
