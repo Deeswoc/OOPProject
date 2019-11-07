@@ -139,7 +139,7 @@ public class Database {
 							"price INTEGER); "+
 					"CREATE TABLE Order("+
 							"order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"Time INTEGER, "
+							"Date_and_Time INTEGER "
 							);
 				}
 			} catch (SQLException e) {
