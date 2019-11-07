@@ -12,7 +12,7 @@ public class Database {
 	private static Connection con=null;
 	private static boolean hasData = false;
 	
-	public ArrayList getDishes() throws ClassNotFoundException, SQLException
+	public ArrayList<Dish> getDishes() throws ClassNotFoundException, SQLException
 	{
 		if(con==null)
 		{
