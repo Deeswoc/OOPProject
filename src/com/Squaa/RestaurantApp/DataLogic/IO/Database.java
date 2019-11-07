@@ -1,28 +1,33 @@
 package com.Squaa.RestaurantApp.DataLogic.IO;
-
+import com.Squaa.RestaurantApp.DataLogic.Dish;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import com.Squaa.RestaurantApp.DataLogic.Dish;
 
 public class Database {
 	private static Connection con=null;
 	private static boolean hasData = false;
 	
-	public void getDishes() throws ClassNotFoundException, SQLException
+	public ArrayList getDishes() throws ClassNotFoundException, SQLException
 	{
 		if(con==null)
 		{
 			getConnection();
 		}
+		ArrayList <Dish> dishes =  new ArrayList<>();
 		Statement state = con.createStatement();
 		ResultSet res = state.executeQuery("Select*FROM Dish");
 		while(res.next())
 		{
-			System.out.println(res.getInt("id") + " " + res.getString("name") + " " + res.getInt("time") + " minutes" + " "+ res.getDouble("price"));
+			dishes.add(new Dish(res.getString ("name"),res.getInt("id"), res.getInt("time"),res.getInt("price")));
 		}
+		return dishes ;
 	}
 	
 	
@@ -45,7 +50,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	public void updateDish(int ID, String name, int preptime, int amount,double cost)
+	public void updateDish(int ID, String name, int preptime, int amount,int cost)
 	{
 		if(con==null)
 		{
@@ -133,7 +138,11 @@ public class Database {
 							"id INTEGER PRIMARY KEY AUTOINCREMENT, "+
 							"name VARCHAR(30), " +
 							"preptime INTEGER, "+
-							"price INTEGER);");
+							"price INTEGER); "+
+					"CREATE TABLE Order("+
+							"order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
+							"Time INTEGER,"
+							);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
