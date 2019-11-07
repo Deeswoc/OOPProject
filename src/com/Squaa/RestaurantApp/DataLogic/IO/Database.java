@@ -138,8 +138,8 @@ public class Database {
 							"preptime INTEGER, "+
 							"price INTEGER); "+
 					"CREATE TABLE Order("+
-							"order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"Date_and_Time INTEGER "
+							"Order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
+							"Date_and_Time INTEGER);"
 							);
 				}
 			} catch (SQLException e) {
