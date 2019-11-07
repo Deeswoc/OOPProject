@@ -25,4 +25,10 @@ public class TimeFormatter {
         int hours = totalSeconds / 3600;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
+    
+   public static int converterSeconds(int hours, int minutes, int seconds) {
+	   int secondsFromHours = 60*60*hours ;
+	   int secondsFromMinutes = minutes*60;
+	   return secondsFromHours + secondsFromMinutes +seconds;   
+   } 
 }
