@@ -48,7 +48,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	public void updateDish(int ID, String name, int preptime, int amount,int cost)
+	public void updateDish(int ID, String name, int preptime,int cost)
 	{
 		if(con==null)
 		{
@@ -58,7 +58,6 @@ public class Database {
 		PreparedStatement prep = con.prepareStatement(
 			"UPDATE Dish SET " +
 					"time =" + preptime +", " +
-					"quantity = " + amount + "," +
 					"price = " + cost +" " +
 					"where id ="+ID);
 		prep.execute();
