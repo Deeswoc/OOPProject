@@ -132,6 +132,9 @@ public class Database {
 					//need to build table
 					Statement state2 = con.createStatement();
 					state2.execute(
+					"CREATE TABLE Menu("+
+							"menu_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+							"Time_period varchar (20)); "+
 					"CREATE TABLE Dish(" +
 							"id INTEGER PRIMARY KEY AUTOINCREMENT, "+
 							"name VARCHAR(30), " +
