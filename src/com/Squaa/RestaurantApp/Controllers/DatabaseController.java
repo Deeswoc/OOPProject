@@ -1,6 +1,10 @@
 package com.Squaa.RestaurantApp.Controllers;
 
 import com.Squaa.RestaurantApp.DataLogic.IO.Database;
+
+import java.util.ArrayList;
+
+import com.Squaa.RestaurantApp.DataLogic.Dish;
 import com.Squaa.RestaurantApp.DataLogic.MenuItem;
 
 public class DatabaseController {
@@ -20,12 +24,13 @@ void addDish(String name,int price, int prepTime) {
 		db.deleteDish(id);
 	}
 	
-	MenuItem getDishes() {
-		return  null;
+	ArrayList<Dish> getDishes() {
+		return db.getDishes();
+		
 	}
 
-	MenuItem getDish()
+	getDish()
 	{
-	 return null;
+	 db.getDishes();
 	}
 }
