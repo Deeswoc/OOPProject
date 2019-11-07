@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.Squaa.RestaurantApp.DataLogic.Dish;
-
 public class Database {
 	private static Connection con=null;
 	private static boolean hasData = false;
@@ -141,7 +139,7 @@ public class Database {
 							"price INTEGER); "+
 					"CREATE TABLE Order("+
 							"order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"Time INTEGER,"
+							"Time INTEGER, "
 							);
 				}
 			} catch (SQLException e) {
