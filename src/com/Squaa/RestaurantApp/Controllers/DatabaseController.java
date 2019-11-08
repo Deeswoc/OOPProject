@@ -36,7 +36,7 @@ public class DatabaseController {
 		}	return null;
 	}
 
-	public Dish getDish()
+	public Dish getDish(int id)
 	{
 	 return null;
 	}

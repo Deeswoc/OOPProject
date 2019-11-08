@@ -142,16 +142,6 @@ public class Database {
  					state.execute("CREATE TABLE Order("+
 							"Order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
 							"Date_and_Time INTEGER); ");
-					/*+
-					"CREATE TABLE Dish(" +
-							"id INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"name VARCHAR(30), " +
-							"preptime INTEGER, "+
-							"price INTEGER); "+
-					"CREATE TABLE Order("+
-							"Order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"Date_and_Time INTEGER);"
-							);*/
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
