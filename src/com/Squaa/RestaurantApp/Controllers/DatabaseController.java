@@ -38,7 +38,7 @@ public class DatabaseController {
 
 	public Dish getDish(int id)
 	{
-	 return null;
+	 return db.getDish(id);
 	}
 	
 	public void updateDish(String name,int price, int preptime, int id ){

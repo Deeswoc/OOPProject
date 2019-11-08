@@ -101,11 +101,28 @@ public class Database {
 		ResultSet res = state.executeQuery("Select*FROM Dish");
 		while(res.next())
 		{
-			dishes.add(new Dish(res.getString ("name"),res.getInt("id"), res.getInt("time"),res.getInt("price")));
+			dishes.add(new Dish(res.getString ("name"),res.getInt("id"), res.getInt("preptime"),res.getInt("price")));
 		}
 		return dishes ;
 	}
-	
+
+	public Dish getDish(int id){
+		if(con == null){
+			getConnection();
+		}
+		Dish dish = null;
+		try{
+			Statement state = con.createStatement();
+			ResultSet res = state.executeQuery("SELECT * FROM Dish where id =" + id + ";");
+			while (res.next()){
+				dish = new Dish(res.getString ("name"),res.getInt("id"), res.getInt("preptime"),res.getInt("price"));
+			}
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return dish;
+	}
 	
 	public void addDish(String name, int preptime, int cost)
 	{

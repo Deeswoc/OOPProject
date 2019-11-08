@@ -1,15 +1,16 @@
 package com.Squaa.RestaurantApp.UI;
 
+import com.Squaa.RestaurantApp.DataLogic.Dish;
 import com.Squaa.RestaurantApp.DataLogic.MenuItem;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class MenuTableModel  extends AbstractTableModel {
-    private ArrayList<MenuItem> dataset;
+    private ArrayList<Dish> dataset;
     private String[] columnNames = {"Dish", "Cost", "Prep Time"};
 
-    public MenuTableModel(ArrayList<MenuItem> menu){
+    public MenuTableModel(ArrayList<Dish> menu){
 
         this.dataset = menu;
     }
@@ -50,7 +51,7 @@ public class MenuTableModel  extends AbstractTableModel {
 
 
 
-    public void setDataset(ArrayList<MenuItem> dataset){
+    public void setDataset(ArrayList<Dish> dataset){
         this.dataset = dataset;
     }
 }
