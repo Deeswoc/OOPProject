@@ -31,15 +31,12 @@ public class MenuItemForm extends JPanel {
         prepTimeLabel = new JLabel("Prep Time");
         prepTime = new JTextField(TEXT_FIELD_WIDTH);
         submit = new JButton("Submit");
-        submit.addActionListener(buttonAction);
-        buttonAction = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-                databaseController.addDish(name.getText(), Integer.parseInt(prepTime.getText()), Integer.parseInt(cost.getText()));
-                System.out.println("Add Dish Ran");
-            }
+        buttonAction = e -> {
+            databaseController.addDish(name.getText(), Integer.parseInt(prepTime.getText()), Integer.parseInt(cost.getText()));
+            System.out.println("Add Dish Ran");
         };
+        submit.addActionListener(buttonAction);
         setLayout(new GridBagLayout());
         gc = new GridBagConstraints();
         layoutForm(0);
@@ -66,5 +63,16 @@ public class MenuItemForm extends JPanel {
         gc.gridwidth = 2;
         add(submit, gc);
         gc.gridwidth = 1;
+    }
+
+    private class ButtonAction implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            databaseController.addDish(name.getText(), Integer.parseInt(prepTime.getText()), Integer.parseInt(cost.getText()));
+            System.out.println("Add Dish Ran");
+        }
+
+        ButtonAction(){}
     }
 }

@@ -13,16 +13,16 @@ public class EditMenuItemForm extends MenuItemForm {
     private JLabel idLabel;
     private JTextField id;
     private Dish dishToUpdate;
+
     EditMenuItemForm(){
         super();
         submit.setText("Save");
-        buttonAction = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                databaseController.updateDish(Integer.parseInt(id.getText()), name.getText(), Integer.parseInt(prepTime.getText()), Integer.parseInt(cost.getText()));
-                System.out.println("Add Dish Ran");
-            }
+        buttonAction = e -> {
+            databaseController.updateDish(Integer.parseInt(id.getText()), name.getText(), Integer.parseInt(prepTime.getText()), Integer.parseInt(cost.getText()));
+            System.out.println("Edit Dish Ran");
         };
+        submit.removeActionListener(submit.getActionListeners()[0]);
+        submit.addActionListener(buttonAction);
         removeAll();
         idLabel = new JLabel("ID");
         id = new JTextField(10);
@@ -59,5 +59,14 @@ public class EditMenuItemForm extends MenuItemForm {
         gc.gridx = 1;
         add(id, gc);
         layoutForm(1);
+    }
+
+    private class ButtonAction implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            databaseController.updateDish(Integer.parseInt(id.getText()), name.getText(), Integer.parseInt(prepTime.getText()), Integer.parseInt(cost.getText()));
+            System.out.println("Edit Dish Ran");
+        }
+        ButtonAction(){}
     }
 }

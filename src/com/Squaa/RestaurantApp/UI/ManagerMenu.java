@@ -1,5 +1,6 @@
 package com.Squaa.RestaurantApp.UI;
 
+import com.Squaa.RestaurantApp.Controllers.DatabaseController;
 import com.Squaa.RestaurantApp.Controllers.FrameController;
 
 import javax.swing.*;
@@ -46,6 +47,13 @@ public class ManagerMenu extends JMenuBar {
             }
         });
 
+        viewItems.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MenuTableModel m = new MenuTableModel(new DatabaseController().getDishes());
+                frameController.updateFrame(new MenuDisplay(m));
+            }
+        });
                 add(menu);
         menu.add(addItem);
         menu.add(editItem);
