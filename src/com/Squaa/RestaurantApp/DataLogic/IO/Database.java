@@ -1,5 +1,6 @@
 package com.Squaa.RestaurantApp.DataLogic.IO;
 import com.Squaa.RestaurantApp.DataLogic.Dish;
+import com.Squaa.RestaurantApp.DataLogic.Order;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -163,23 +164,6 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	public ResultSet search(int ID)
-	{
-		ResultSet res = null;
-		if(con==null)
-		{
-			getConnection();
-		}
-		try {
-			Statement state = con.createStatement();
-			res = state.executeQuery("SELECT*FROM Dish where id = "+ID);
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
-		return res;
-	}
 	
 	public void deleteDish(int ID)
 	{
@@ -238,8 +222,49 @@ public class Database {
 		
 	}
 	
-	//FOR MENU_AND_MENUITEM
+	//FOR MENU_and_MENUTITEM
+	
+	public void addMenu_Item_to_mENU(int id,int menu_id,String detail)
+	{
+		if(con==null)
+		{
+			getConnection();
+		}
+		try {
+			String info = String.valueOf(detail);
+			PreparedStatement prep =con.prepareStatement("INSERT INTO Menu_and_MenuItem values(?,?,?);");
+			prep.setInt(1, id);
+			prep.setInt(2, menu_id);
+			prep.setString(3, info);
+			prep.execute();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	//FOR MENU_ITEM_and_ORDERS
+	public void addMenu_Item_to_Orders(int amount,int id,int order_id)
+	{
+		if(con==null)
+		{
+			getConnection();
+		}
+		try {
+			PreparedStatement prep =con.prepareStatement("INSERT INTO  MenuItem_and_Orders values(?,?,?);");
+			prep.setInt(1, amount);
+			prep.setInt(2, id);
+			prep.setInt(3, order_id);
+			prep.execute();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	
-
+	
+	
 }
