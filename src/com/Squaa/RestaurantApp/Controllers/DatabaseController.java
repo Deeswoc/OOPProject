@@ -15,17 +15,16 @@ public class DatabaseController {
 		db = new Database();
 	}
 	
-void addDish(String name,int price, int prepTime) {
-	
-	db.addDish(name, prepTime, price);
+	public void addDish(String name, int prepTime, int cost) {
+		db.addDish(name, prepTime, cost);
 	}
 
 	void deleteDish(int id)
-	{ 
+	{
 		db.deleteDish(id);
 	}
-	
-	ArrayList<Dish> getDishes() {
+
+	public ArrayList<Dish> getDishes() {
 		try {
 			return db.getDishes();
 		} catch (ClassNotFoundException e) {
@@ -37,12 +36,12 @@ void addDish(String name,int price, int prepTime) {
 		}	return null;
 	}
 
-	Dish getDish()
+	public Dish getDish()
 	{
 	 return null;
 	}
 	
-	void updateDish(String name,int price, int preptime, int id ){
-		db.updateDish(id, name, preptime,0, price);
+	public void updateDish(String name,int price, int preptime, int id ){
+		db.updateDish(id, name, preptime, price);
 	}
 }

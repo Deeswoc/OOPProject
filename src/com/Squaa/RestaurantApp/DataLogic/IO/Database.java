@@ -29,7 +29,7 @@ public class Database {
 	}
 	
 	
-	public void addDish(String name, int preptime,double cost)
+	public void addDish(String name, int preptime, int cost)
 	{
 		if(con==null)
 		{
@@ -40,7 +40,7 @@ public class Database {
 		PreparedStatement prep = con.prepareStatement("INSERT INTO Dish values(null, ?, ?, ?);");
 		prep.setString(1, dish_name);
 		prep.setInt(2, preptime);
-		prep.setDouble(3, cost);
+		prep.setInt(3, cost);
 		prep.execute();
 		}
 		catch(SQLException e)
@@ -129,11 +129,20 @@ public class Database {
 				{
 					System.out.println("Building the dish table\n");
 					//need to build table
-					Statement state2 = con.createStatement();
-					state2.execute(
-					"CREATE TABLE Menu("+
+					//Statement state2 = con.createStatement();
+					//state2.execute(
+					state.execute("CREATE TABLE Menu("+
 							"menu_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"Time_period varchar (20)); "+
+							"Time_period varchar (20)); ");
+					state.execute("CREATE TABLE Dish(" +
+							"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+							"name VARCHAR(30), " +
+							"preptime INTEGER, " +
+							"price INTEGER); ");
+ 					state.execute("CREATE TABLE Order("+
+							"Order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
+							"Date_and_Time INTEGER); ");
+					/*+
 					"CREATE TABLE Dish(" +
 							"id INTEGER PRIMARY KEY AUTOINCREMENT, "+
 							"name VARCHAR(30), " +
@@ -142,7 +151,7 @@ public class Database {
 					"CREATE TABLE Order("+
 							"Order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
 							"Date_and_Time INTEGER);"
-							);
+							);*/
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
