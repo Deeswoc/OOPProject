@@ -19,7 +19,7 @@ public class DatabaseController {
 		db.addDish(name, prepTime, cost);
 	}
 
-	void deleteDish(int id)
+	public void deleteDish(int id)
 	{
 		db.deleteDish(id);
 	}
@@ -41,7 +41,7 @@ public class DatabaseController {
 	 return db.getDish(id);
 	}
 	
-	public void updateDish(String name,int price, int preptime, int id ){
+	public void updateDish( int id, String name,int price, int preptime){
 		db.updateDish(id, name, preptime, price);
 	}
 }

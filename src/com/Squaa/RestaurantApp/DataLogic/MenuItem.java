@@ -5,7 +5,7 @@ public class MenuItem {
 	private int prepTime;
 	private int id;
 	private String name;
-	public MenuItem(String name, int cost, int prepTime, int id) {
+	public MenuItem(String name, int id, int prepTime, int cost) {
 		super();
 		this.cost = cost;
 		this.prepTime = prepTime;

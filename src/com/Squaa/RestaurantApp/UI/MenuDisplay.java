@@ -32,6 +32,8 @@ public class MenuDisplay extends JPanel {
     public MenuDisplay(MenuTableModel m){
         display = new JTable(m);
         display.setShowVerticalLines(false);
+        display.getColumnModel().getColumn(1).setCellRenderer(new MenuItemNameRenderer());
+        display.setRowHeight(25);
         add(new JScrollPane(display));
     }
 }

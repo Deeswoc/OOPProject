@@ -9,6 +9,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import static com.Squaa.RestaurantApp.UI.MenuItemForm.TEXT_FIELD_WIDTH;
 
@@ -24,6 +26,7 @@ public class DeleteMenuItemForm extends JPanel {
     private JButton delete;
     private DatabaseController databaseController;
     private GridBagConstraints gc;
+    private Dish dishToDelete;
 
     DeleteMenuItemForm(){
         setLayout(new GridBagLayout());
@@ -35,15 +38,27 @@ public class DeleteMenuItemForm extends JPanel {
         prepTimeLabel = new JLabel("Prep Time");
         prepTime = new JLabel();
         delete = new JButton("Delete");
+        delete.setEnabled(false);
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                databaseController.deleteDish(dishToDelete.getid());
+            }
+        });
         idLabel = new JLabel("ID");
         id = new JTextField(TEXT_FIELD_WIDTH);
         id.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                Dish dish = databaseController.getDish(Integer.parseInt(id.getText()));
-                cost.setText(dish.getCost() + "");
-                prepTime.setText(TimeFormatter.getHHMMSS(dish.getPrepTime()));
-                name.setText(dish.getName());
+                dishToDelete = databaseController.getDish(Integer.parseInt(id.getText()));
+                if(dishToDelete==null)
+                    delete.setEnabled(false);
+                else{
+                    delete.setEnabled(true);
+                    cost.setText(dishToDelete.getCost() + "");
+                    prepTime.setText(TimeFormatter.getHHMMSS(dishToDelete.getPrepTime()));
+                    name.setText(dishToDelete.getName());
+                }
             }
 
             @Override

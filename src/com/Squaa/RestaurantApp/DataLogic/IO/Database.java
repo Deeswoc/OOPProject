@@ -143,24 +143,28 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	public void updateDish(int ID, String name, int preptime,int cost)
+	public int updateDish(int ID, String name, int preptime,int cost)
 	{
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
-		PreparedStatement prep = con.prepareStatement(
-			"UPDATE Dish SET " +
-					"time =" + preptime +", " +
-					"price = " + cost +" " +
-					"where id ="+ID);
-		prep.execute();
-
+			PreparedStatement prep = con.prepareStatement(
+					"UPDATE Dish SET name = ?, preptime = ?, price = ? where id = ?"
+			);
+			prep.setString(1, name);
+			prep.setInt(2, preptime);
+			prep.setInt(3, cost);
+			prep.setInt(4, ID);
+			int changed = prep.executeUpdate();
+			System.out.println(changed + " records changed");
+			return changed;
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
+			return -1;
 		}
 	}
 	public ResultSet search(int ID)

@@ -21,6 +21,7 @@ public class AppFrame extends JFrame implements AppWindow{
         add(loginPanel);
         setLocationRelativeTo(null);
         setVisible(true);
+        setResizable(false);
     }
 
     @Override

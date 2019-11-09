@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class MenuTableModel  extends AbstractTableModel {
     private ArrayList<Dish> dataset;
-    private String[] columnNames = {"Dish", "Cost", "Prep Time"};
+    private String[] columnNames = {"ID", "Dish", "Cost", "Prep Time"};
 
     public MenuTableModel(ArrayList<Dish> menu){
 
@@ -24,7 +24,7 @@ public class MenuTableModel  extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -38,18 +38,41 @@ public class MenuTableModel  extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0:
-                return currentItem.getName();
+                return currentItem.getid();
             case 1:
-                return currentItem.getCost();
+                return currentItem.getName();
             case 2:
+                return currentItem.getCost();
+            case 3:
                 return currentItem.getPrepTime();
         }
         return null;
     }
 
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        super.setValueAt(aValue, rowIndex, columnIndex);
+        Dish dish = dataset.get(rowIndex);
+        switch (columnIndex){
+            case 1:{
+                dish.setName((String) aValue);
+            }
+            case 2:{
+                dish.setCost(Integer.parseInt((String) aValue));
+            }
+            case 3:{
+                dish.setPrepTime(Integer.parseInt((String) aValue));
+            }
+        }
+    }
 
-
-
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if(columnIndex==0)
+            return false;
+        else
+            return  true;
+    }
 
     public void setDataset(ArrayList<Dish> dataset){
         this.dataset = dataset;
