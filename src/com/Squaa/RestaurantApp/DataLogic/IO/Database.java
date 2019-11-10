@@ -47,8 +47,7 @@ public class Database {
 				if(!res.next())
 				{
 					state.execute("CREATE TABLE Menu("+
-							"menu_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"Time_period varchar (20)); ");
+							"menu_id INTEGER PRIMARY KEY AUTOINCREMENT);");
 					state.execute("CREATE TABLE Dish(" +
 							"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 							"name VARCHAR(30), " +
@@ -199,15 +198,13 @@ public class Database {
 	}
 	
 	//FOR MENU
-	public void addMenu(String Time_of_day){
+	public void addMenu(){
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
-		String daytime = String.valueOf(Time_of_day);
-		PreparedStatement prep = con.prepareStatement("INSERT INTO Menu values(null, ?);");
-		prep.setString(1,daytime);
+		PreparedStatement prep = con.prepareStatement("INSERT INTO Menu values(null);");
 		prep.execute();
 		}
 		catch(SQLException e)
@@ -390,7 +387,7 @@ public class Database {
 			
 		}
 	
-	
+	//FOR CREATING TXT FILES FOR EACH ORDER CONTAINING ORDER_NUM,DATE,TIME
 	 public void writeFile(int a,String t)
 	    {
 	            File file = new File(a+".txt");
