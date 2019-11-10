@@ -8,6 +8,7 @@ import com.Squaa.RestaurantApp.DataLogic.Order;
 import com.Squaa.RestaurantApp.DataLogic.OrderItem;
 import com.Squaa.RestaurantApp.DataLogic.State;
 import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimeChangedListener;
+import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimeFormatter;
 import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimerListener;
 
 import javax.swing.*;
@@ -83,15 +84,20 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         OrderItem orderItem = orderItems.get(rowIndex);
+
         switch (columnIndex) {
             case 0:
                 return orderItem.getName();
             case 1:
                 return orderItem.getCost();
             case 2:
-                return orderItem.getOrderTime();
+                if(orderItem.getOrderTime()!=0)
+                    return TimeFormatter.getHHMMSS(orderItem.getOrderTime());
+                else
+                    return "READY!!";
             case 3:
                 return orderItem.getQuantity();
+
         }
 
         return null;
@@ -102,6 +108,8 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
         ArrayList<Dish> list = dc.getDishes();
         Order order = new Order();
         order.addOrderItem(list.get(0));
+        order.addOrderItem(list.get(1));
+        order.addOrderItem(list.get(2));
         OrderTableModel model = new OrderTableModel(order);
         JFrame frame = new JFrame("Testing");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
