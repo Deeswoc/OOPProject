@@ -3,6 +3,9 @@ import com.Squaa.RestaurantApp.DataLogic.Dish;
 import com.Squaa.RestaurantApp.DataLogic.Order;
 import com.Squaa.RestaurantApp.DataLogic.OrderItem;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -344,9 +347,11 @@ public class Database {
 		ArrayList <Order> order =  new ArrayList<>();
 		try{
 			Statement state = con.createStatement();
-			ResultSet res = state.executeQuery("SELECT * FROM Orders"+";");
+			ResultSet res = state.executeQuery("SELECT * FROM Orders ;");
 			while (res.next()){
-				//order.add(new Order(res.getInt ("id"),res.getString("Date"), res.getString("Time"));
+				String data = res.getInt ("Order_num")+" "+res.getString("Date")+ " "+ res.getString("Time");
+				int id = res.getInt("Order_num");
+				writeFile(id,data);
 			}
 
 		}catch (Exception e){
@@ -379,6 +384,25 @@ public class Database {
 		{
 			
 		}
+	
+	// FOR CREATION OF TXT FILE CONTAINING ORDER ID'S,DATE, TIME
+	 public void writeFile(int a,String t)
+	    {
+	            File file = new File(a+".txt");
+	            FileWriter fr = null;
+	            try {
+	                fr = new FileWriter(file);
+	                fr.write(t);
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	                try {
+	                    fr.close();
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            
+}
 }
 
 	
