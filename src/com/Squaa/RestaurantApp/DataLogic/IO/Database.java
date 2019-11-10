@@ -1,8 +1,6 @@
 package com.Squaa.RestaurantApp.DataLogic.IO;
 import com.Squaa.RestaurantApp.DataLogic.Dish;
 import com.Squaa.RestaurantApp.DataLogic.Order;
-import com.Squaa.RestaurantApp.DataLogic.OrderItem;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -353,7 +351,7 @@ public class Database {
 			Statement state = con.createStatement();
 			ResultSet res = state.executeQuery("SELECT * FROM Orders"+";");
 			while (res.next()){
-				//order.add(new Order(res.getInt ("id"),res.getString("Date"), res.getString("Time"));
+				order.add(new Order(res.getInt ("Order_num"),res.getString("Date"), res.getString("Time")));
 			}
 
 		}catch (Exception e){
@@ -369,10 +367,8 @@ public class Database {
 		Order orders = null;
 		try{
 			Statement state = con.createStatement();
-			ResultSet res = state.executeQuery("SELECT * FROM Dish where id =" + id + ";");
-			while (res.next()){
-				//orders = new Order(res.getInt ("id"),res.getString("Date"), res.getString("Time"));
-			}
+			ResultSet res = state.executeQuery("SELECT * FROM Orders where id =" + id + ";");
+				orders = new Order(res.getInt ("Order_num"),res.getString("Date"), res.getString("Time"));
 
 		}catch (Exception e){
 			e.printStackTrace();
