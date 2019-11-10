@@ -1,6 +1,8 @@
 package com.Squaa.RestaurantApp.DataLogic.IO;
 import com.Squaa.RestaurantApp.DataLogic.Dish;
 import com.Squaa.RestaurantApp.DataLogic.Order;
+import com.Squaa.RestaurantApp.DataLogic.OrderItem;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.time.*;
 
 public class Database {
 	private static Connection con=null;
@@ -40,10 +43,6 @@ public class Database {
 				ResultSet res = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table'AND name='Dish'");
 				if(!res.next())
 				{
-					System.out.println("Building the dish table\n");
-					//need to build table
-					//Statement state2 = con.createStatement();
-					//state2.execute(
 					state.execute("CREATE TABLE Menu("+
 							"menu_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
 							"Time_period varchar (20)); ");
@@ -54,7 +53,8 @@ public class Database {
 							"price INTEGER); ");
  					state.execute("CREATE TABLE Orders("+
 							"Order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"Date_and_Time INTEGER); ");
+							"Date INTEGER, "+
+							"Time INTEGER); ");
  					state.execute(
 							"CREATE TABLE Menu_and_MenuItem("+
 							"id INTEGER, "+
@@ -65,24 +65,22 @@ public class Database {
 							"Constraint pk_ids PRIMARY KEY (id,m_id));");
  					state.execute(
 							"CREATE TABLE MenuItem_and_Orders("+
-							"quantity INTEGER, "+
 							"id INTEGER, "+
 							"orderid INTEGER, "+
+							"quantity INTEGER, "+
 							"Constraint fk_menuitem FOREIGN KEY (id) REFERENCES Dish(id), "+
 							"Constraint fk_orderid FOREIGN KEY (orderid) REFERENCES Orders(Order_num),"+
 							"Constraint pk_menorder PRIMARY KEY (id,orderid));");
-					/*+
-					"CREATE TABLE Dish(" +
-							"id INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"name VARCHAR(30), " +
-							"preptime INTEGER, "+
-							"price INTEGER); "+
-					"CREATE TABLE Order("+
-							"Order_num INTEGER PRIMARY KEY AUTOINCREMENT, "+
-							"Date_and_Time INTEGER);"
-							);*/
+					state.execute("CREATE TABLE Schedule_Menu("+
+							"Time_of_day Varchar(15), "+
+							"menu_for_time INTEGER, "+
+							"Constraint fk_menu FOREIGN KEY (menu_for_time) REFERENCES Menu(menu_id));");
+							
+					System.out.println("Table Buildt\n");
 				}
-			} catch (SQLException e) {
+			}
+			catch (SQLException e)
+			{
 				e.printStackTrace();
 			}
 			
@@ -91,18 +89,25 @@ public class Database {
 	}
 	
 	//FOR DISHES
-	public ArrayList<Dish> getDishes() throws ClassNotFoundException, SQLException
+	public ArrayList<Dish> getDishes()
 	{
 		if(con==null)
 		{
 			getConnection();
 		}
 		ArrayList <Dish> dishes =  new ArrayList<>();
-		Statement state = con.createStatement();
-		ResultSet res = state.executeQuery("Select*FROM Dish");
-		while(res.next())
+		Statement state;
+		try {
+			state = con.createStatement();
+			ResultSet res = state.executeQuery("Select*FROM Dish");
+				while(res.next())
+				{
+					dishes.add(new Dish(res.getString ("name"),res.getInt("id"), res.getInt("preptime"),res.getInt("price")));
+				}
+			}
+		catch (SQLException e)
 		{
-			dishes.add(new Dish(res.getString ("name"),res.getInt("id"), res.getInt("preptime"),res.getInt("price")));
+			e.printStackTrace();
 		}
 		return dishes ;
 	}
@@ -144,6 +149,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	
 	public int updateDish(int ID, String name, int preptime,int cost)
 	{
 		if(con==null)
@@ -169,7 +175,7 @@ public class Database {
 		}
 	}
 	
-	public void deleteDish(int ID)
+	public int deleteDish(int ID)
 	{
 		if(con==null)
 		{
@@ -179,11 +185,13 @@ public class Database {
 		PreparedStatement prep = con.prepareStatement(
 			"DELETE FROM Dish where id ="+ID);
 		System.out.println(ID+" has been deleted.");
-		prep.execute();
+		int changed = prep.executeUpdate();
+		return changed;
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
+			return -1;
 		}
 	}
 	
@@ -204,6 +212,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	
 	public void displayMenu(int id)
 	{
 		if(con==null)
@@ -220,7 +229,6 @@ public class Database {
 			}
 		}
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -248,6 +256,26 @@ public class Database {
 		}
 	}
 	
+	public void displayMenu_and_Menu_Item() 
+	{
+		if(con==null)
+		{
+			getConnection();
+		}
+		try {
+		Statement state = con.createStatement();
+		ResultSet res = state.executeQuery("Select*FROM Menu_and_MenuItem");
+		
+			while(res.next())
+			{
+			 System.out.println(res.getInt("id")+ " " +res.getInt("m_id")+ " "+res.getString("detail"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	//FOR MENU_ITEM_and_ORDERS
 	public void addMenu_Item_to_Orders(int amount,int id,int order_id)
 	{
@@ -257,9 +285,9 @@ public class Database {
 		}
 		try {
 			PreparedStatement prep =con.prepareStatement("INSERT INTO  MenuItem_and_Orders values(?,?,?);");
-			prep.setInt(1, amount);
-			prep.setInt(2, id);
-			prep.setInt(3, order_id);
+			prep.setInt(1, id);
+			prep.setInt(2, order_id);
+			prep.setInt(3, amount);
 			prep.execute();
 		}
 		catch(SQLException e)
@@ -268,7 +296,89 @@ public class Database {
 		}
 	}
 	
+	public void Display_Menu_item_and_Orders()
+	{
+		if(con==null)
+		{
+			getConnection();
+		}
+		try {
+		Statement state = con.createStatement();
+		ResultSet res = state.executeQuery("Select*FROM MenuItem_and_Orders");
+		
+			while(res.next())
+			{
+			 System.out.println(res.getInt("id")+ " " +res.getInt("orderid")+ " "+res.getInt("qunatity"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
+	//FOR ORDER TABLE
+	public void addOrder()
+	{
+		LocalDate obj1 = LocalDate.now();
+		LocalTime obj2 = LocalTime.now();
+		if(con==null)
+		{
+			getConnection();
+		}
+		try {
+			PreparedStatement prep =con.prepareStatement("INSERT INTO Orders values(null,?,?);");
+			prep.setObject(1, obj1);
+			prep.setObject(2, obj2);
+			prep.execute();
+			System.out.println("Order Added\n");
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
+	public ArrayList<Order> DisplayOrders(){
+		if(con == null){
+			getConnection();
+		}
+		ArrayList <Order> order =  new ArrayList<>();
+		try{
+			Statement state = con.createStatement();
+			ResultSet res = state.executeQuery("SELECT * FROM Orders"+";");
+			while (res.next()){
+				//order.add(new Order(res.getInt ("id"),res.getString("Date"), res.getString("Time"));
+			}
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return order;
+	}
 	
+	public Order DisplayOrder(int id){
+		if(con == null){
+			getConnection();
+		}
+		Order orders = null;
+		try{
+			Statement state = con.createStatement();
+			ResultSet res = state.executeQuery("SELECT * FROM Dish where id =" + id + ";");
+			while (res.next()){
+				//orders = new Order(res.getInt ("id"),res.getString("Date"), res.getString("Time"));
+			}
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return orders;
+	}
+
+	//FOR MENU_SCHEDULE
+
+	public void  addMenu_Schedule()
+		{
+			
+		}
 }
+
+	
