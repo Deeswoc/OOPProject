@@ -12,6 +12,10 @@ public class OrderItem{
 
 	public OrderItem(MenuItem menuItem) {
 		this.itemOrdered = menuItem;
+		prepTime = new Stopwatch();
+		quantity = 1;
+		prepTime.addTime(itemOrdered.getPrepTime());
+
 	}
 	public int subTotal(){
 		return itemOrdered.getCost() * quantity;
@@ -50,5 +54,11 @@ public class OrderItem{
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	public int getOrderTime(){
+		return prepTime.getTimeRemaining();
+	}
 
+	public void start(){
+		prepTime.startTimer();
+	}
 }

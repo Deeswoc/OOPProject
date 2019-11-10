@@ -22,6 +22,23 @@ public class Stopwatch {
         interval+=seconds;
     }
 
+    public int startTimer(){
+        if(interval>=0) {
+            running = true;
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    running = true;
+                    int sec = count();
+                    notifyTimeChanged();
+                    if (sec == 0)
+                        alarm();
+                }
+            }, delay, period);
+        }
+        return 1;
+    }
+
     public int startTimer(int time){
         if(interval>=0) {
             running = true;
@@ -41,6 +58,9 @@ public class Stopwatch {
         return 0;
     }
 
+    public int getTimeRemaining(){
+        return interval;
+    }
 
     private int count(){
             if (interval == 1) {

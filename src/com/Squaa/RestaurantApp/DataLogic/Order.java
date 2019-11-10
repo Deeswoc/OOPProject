@@ -17,12 +17,27 @@ public class Order {
 		return total;
 	}
 
+	public  Order(){
+		order = new ArrayList<>();
+	}
+
+	public ArrayList<OrderItem> getOrderItems(){
+		return order;
+	}
+
 	public void addOrderItem(MenuItem menuItem){
 		for (OrderItem item: order) {
-			if (item.getItemID() == menuItem.getid()){
+			if (item.getItemID() == menuItem.getid()) {
 				item.incrementQuantity();
 				return;
 			}
+		}
+		order.add(new OrderItem(menuItem));
+	}
+
+	public void startOrder(){
+		for(OrderItem orderItem: order){
+			orderItem.start();
 		}
 	}
 
