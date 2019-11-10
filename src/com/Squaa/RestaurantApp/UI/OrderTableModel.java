@@ -28,12 +28,6 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
         this.dataset = order;
         orderItems = order.getOrderItems();
         for(loopControl = 0; loopControl < orderItems.size(); loopControl++){
-            /*timerDisplays.add(new TimeChangedListener() {
-                @Override
-                public void onChange(int sec) {
-                    fireTableCellUpdated(loopControl, 3);
-                }
-            });*/
             orderItems.get(loopControl).setTimerListener(new TimerListener() {
                 @Override
                 public void alarm() {

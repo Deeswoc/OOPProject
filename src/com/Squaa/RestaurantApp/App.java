@@ -13,9 +13,12 @@ public class App {
 
 
     public static void main(String[] args){
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch(Exception ignored){}
         State state = State.getApplicationState();
         AppFrame window = new AppFrame();
-
         AuthController controller= new AuthController();
         controller.setWindow(window);
         state.addAuthListener(controller);

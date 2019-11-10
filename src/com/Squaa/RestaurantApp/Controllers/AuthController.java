@@ -41,13 +41,21 @@ public class AuthController implements FrameController, AuthListener {
             menu.setFrameController(new ManagerController(window));
             window.setJMenuBar(menu);
             window.setView(new MainView());
+            window.setVisible(false);
+            window.setSize(1000, 700);
+            window.setLocationRelativeTo(null);
             window.revalidate();
+            window.setVisible(true);
         }else if (level == Level.CUSTOMER){
             CustomerMenu menu = new CustomerMenu();
             menu.setFrameController(new ManagerController(window));
             window.setJMenuBar(menu);
             window.setView(new MainView());
+            window.setVisible(false);
+            window.setSize(1000, 700);
+            window.setLocationRelativeTo(null);
             window.revalidate();
+            window.setVisible(true);
         }
     }
 }
