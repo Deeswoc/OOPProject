@@ -25,15 +25,12 @@ public class DatabaseController {
 	}
 
 	public ArrayList<Dish> getDishes() {
-		try {
+		//try {
 			return db.getDishes();
-		} catch (ClassNotFoundException e) {
+		//} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	return null;
+			//e.printStackTrace();
+		//}	return null;
 	}
 
 	public Dish getDish(int id)
