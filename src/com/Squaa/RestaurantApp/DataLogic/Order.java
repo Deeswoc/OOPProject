@@ -7,7 +7,8 @@ import java.util.ArrayList;
 public class Order {
 	private ArrayList<OrderItem> order;
 	private int orderNumber;
-	private String dateTime;
+	private String date;
+	private String time;
 	public int netTotal()
 	{
 		int total = 0;
@@ -19,11 +20,10 @@ public class Order {
 		return total;
 	}
 
-	public Order(ArrayList<OrderItem> order, int orderNumber, String dateTime) {
-		this.order = order;
+	public Order(int orderNumber, String date, String time) {
 		this.orderNumber = orderNumber;
-		this.dateTime = dateTime;
-		order = new ArrayList<>();
+		this.date = date;
+		this.time = time;
 	}
 
 	public  Order(){
