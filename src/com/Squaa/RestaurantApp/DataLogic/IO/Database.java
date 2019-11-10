@@ -234,7 +234,7 @@ public class Database {
 	
 	//FOR MENU_and_MENUTITEM
 	
-	public void addMenu_Item_to_mENU(int id,int menu_id,String detail)
+	public void addMenu_Item_to_MENU(int id,int menu_id,String detail)
 	{
 		if(con==null)
 		{
@@ -254,27 +254,26 @@ public class Database {
 		}
 	}
 	
-	public void displayMenu_and_Menu_Item(int MenuID)
+	public ArrayList<Dish> displayMenu_and_Menu_Item(int MenuID)
 	{
+		
 		if(con==null)
 		{
 			getConnection();
 		}
+		ArrayList <Dish> dishes =  new ArrayList<>();
 		try {
 		PreparedStatement state = con.prepareStatement("SELECT * FROM Menu_and_MenuItem INNER JOIN Dish D on Menu_and_MenuItem.id = D.id where Menu_and_MenuItem.id = ?");
 		state.setInt(1, MenuID);
 		ResultSet res = state.executeQuery();
-		//ResultSet res = state.executeQuery("Select*FROM Menu_and_MenuItem");
-		/*
-			You're gonna just make the array list in the while loop and return it.
-		 */
 			while(res.next())
 			{
-			 System.out.println(res.getInt("id")+ " " +res.getInt("m_id")+ " "+res.getString("detail"));
+				dishes.add(new Dish(res.getString ("name"),res.getInt("id"), res.getInt("preptime"),res.getInt("price")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return dishes;
 		
 	}
 	
