@@ -332,6 +332,13 @@ public class Database {
 			prep.setObject(1, obj1);
 			prep.setObject(2, obj2);
 			prep.execute();
+			Statement state = con.createStatement();
+			ResultSet res = state.executeQuery("SELECT * FROM Orders");
+			while(res.next()) {
+			String data = res.getInt ("Order_num")+" "+res.getString("Date")+ " "+ res.getString("Time");
+			int id = res.getInt("Order_num");
+			writeFile(id,data);
+			}
 			System.out.println("Order Added\n");
 		}
 		catch(SQLException e)
@@ -347,11 +354,9 @@ public class Database {
 		ArrayList <Order> order =  new ArrayList<>();
 		try{
 			Statement state = con.createStatement();
-			ResultSet res = state.executeQuery("SELECT * FROM Orders ;");
+			ResultSet res = state.executeQuery("SELECT * FROM Orders"+";");
 			while (res.next()){
-				String data = res.getInt ("Order_num")+" "+res.getString("Date")+ " "+ res.getString("Time");
-				int id = res.getInt("Order_num");
-				writeFile(id,data);
+				//order.add(new Order(res.getInt ("id"),res.getString("Date"), res.getString("Time"));
 			}
 
 		}catch (Exception e){
@@ -385,7 +390,7 @@ public class Database {
 			
 		}
 	
-	// FOR CREATION OF TXT FILE CONTAINING ORDER ID'S,DATE, TIME
+	
 	 public void writeFile(int a,String t)
 	    {
 	            File file = new File(a+".txt");
