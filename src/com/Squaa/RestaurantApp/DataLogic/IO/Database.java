@@ -1,6 +1,9 @@
 package com.Squaa.RestaurantApp.DataLogic.IO;
 import com.Squaa.RestaurantApp.DataLogic.Dish;
+import com.Squaa.RestaurantApp.DataLogic.MenuItem;
 import com.Squaa.RestaurantApp.DataLogic.Order;
+import com.Squaa.RestaurantApp.DataLogic.OrderItem;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -263,7 +266,7 @@ public class Database {
 		}
 		ArrayList <Dish> dishes =  new ArrayList<>();
 		try {
-		PreparedStatement state = con.prepareStatement("SELECT * FROM Menu_and_MenuItem INNER JOIN Dish D on Menu_and_MenuItem.id = D.id where Menu_and_MenuItem.id = ?");
+		PreparedStatement state = con.prepareStatement("SELECT * FROM Menu_and_MenuItem INNER JOIN Dish D on Menu_and_MenuItem.id = D.id where Menu_and_MenuItem.m_id = ?");
 		state.setInt(1, MenuID);
 		ResultSet res = state.executeQuery();
 			while(res.next())
@@ -297,23 +300,27 @@ public class Database {
 		}
 	}
 	
-	public void Display_Menu_item_and_Orders()
+	public ArrayList<OrderItem> Display_Menu_item_and_Orders(int MenuItemId)
 	{
+		MenuItem menuitem = null;
+		ArrayList<OrderItem> order =  new ArrayList<>();
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
-		Statement state = con.createStatement();
-		ResultSet res = state.executeQuery("Select*FROM MenuItem_and_Orders");
-		
+		PreparedStatement state = con.prepareStatement("Select*FROM MenuItem_and_Orders INNER JOIN Orders O on MenuItem_and_Order.orderid = O.Order_num where MenuItem_and_Order.id = ?");
+		 state.setInt(1, MenuItemId);
+		 ResultSet res = state.executeQuery();
 			while(res.next())
 			{
-			 System.out.println(res.getInt("id")+ " " +res.getInt("orderid")+ " "+res.getInt("qunatity"));
+			 menuitem = new MenuItem(res.getString ("name"),res.getInt("id"), res.getInt("preptime"),res.getInt("price"));
+			  order.add(new OrderItem(menuitem));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return order;
 	}
 	
 	//FOR ORDER TABLE
