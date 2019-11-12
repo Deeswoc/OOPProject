@@ -388,15 +388,28 @@ public class Database {
 
 	//FOR MENU_SCHEDULE
 
-	public void  addMenu_Schedule()
-		{
-			
+	public void  GetMenuSchedule(String TimeOfDay, int MenuId)
+	{
+		if(con==null){
+			getConnection();
 		}
+		try {
+		String TimeValue =String.valueOf(TimeOfDay);
+		PreparedStatement prep = con.prepareStatement("INSERT INTO Schedule_Menu values(?,?);");
+		prep.setString(1, TimeValue);
+		prep.setInt(2, MenuId);
+		prep.execute();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	//FOR CREATING TXT FILES FOR EACH ORDER CONTAINING ORDER_NUM,DATE,TIME
 	 public void writeFile(int a,String t)
 	    {
-	            File file = new File(a+".txt");
+	            File file = new File("Orders//"+a+".txt");// Let me know if it work on your machine
 	            FileWriter fr = null;
 	            try {
 	                fr = new FileWriter(file);
@@ -411,6 +424,28 @@ public class Database {
 	                }
 	            
 }
+	 public void CreateFileDirectory() 
+	 {
+		 boolean dirFlag  = false;
+		File stockDir = new File("Orders");
+		
+		try
+		{
+			dirFlag = stockDir.mkdir();
+		}
+		catch(SecurityException Se)
+		{
+			System.out.println("Error marking directory"+ Se);
+		}
+		if(dirFlag)
+		{
+			System.out.println("Directory created Successfully");
+		}
+		else
+		{
+			System.out.println("Directory already exists");
+		}
+	 }
 }
 
 	
