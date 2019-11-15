@@ -20,6 +20,38 @@ public class Order {
 		return total;
 	}
 
+	public ArrayList<OrderItem> getOrder() {
+		return order;
+	}
+
+	public void setOrder(ArrayList<OrderItem> order) {
+		this.order = order;
+	}
+
+	public int getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(int orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
 	public Order(int orderNumber, String date, String time) {
 		this.orderNumber = orderNumber;
 		this.date = date;

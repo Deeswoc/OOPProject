@@ -3,6 +3,7 @@ import com.Squaa.RestaurantApp.DataLogic.Dish;
 import com.Squaa.RestaurantApp.DataLogic.MenuItem;
 import com.Squaa.RestaurantApp.DataLogic.Order;
 import com.Squaa.RestaurantApp.DataLogic.OrderItem;
+import com.Squaa.RestaurantApp.DataLogic.TimePeriod;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,6 +15,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.swing.filechooser.FileSystemView;
+
 import java.time.*;
 
 public class Database {
@@ -326,24 +330,13 @@ public class Database {
 	//FOR ORDER TABLE
 	public void addOrder()
 	{
-		LocalDate obj1 = LocalDate.now();
-		LocalTime obj2 = LocalTime.now();
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
 			PreparedStatement prep =con.prepareStatement("INSERT INTO Orders values(null,?,?);");
-			prep.setObject(1, obj1);
-			prep.setObject(2, obj2);
 			prep.execute();
-			Statement state = con.createStatement();
-			ResultSet res = state.executeQuery("SELECT * FROM Orders");
-			while(res.next()) {
-			String data = res.getInt ("Order_num")+" "+res.getString("Date")+ " "+ res.getString("Time");
-			int id = res.getInt("Order_num");
-			writeFile(id,data);
-			}
 			System.out.println("Order Added\n");
 		}
 		catch(SQLException e)
@@ -388,7 +381,7 @@ public class Database {
 
 	//FOR MENU_SCHEDULE
 
-	public void  GetMenuSchedule(String TimeOfDay, int MenuId)
+	public void  SetMenuSchedule(String TimeOfDay, int MenuId)
 	{
 		if(con==null){
 			getConnection();
@@ -406,46 +399,22 @@ public class Database {
 		}
 	}
 	
-	//FOR CREATING TXT FILES FOR EACH ORDER CONTAINING ORDER_NUM,DATE,TIME
-	 public void writeFile(int a,String t)
-	    {
-	            File file = new File("Orders//"+a+".txt");// Let me know if it work on your machine
-	            FileWriter fr = null;
-	            try {
-	                fr = new FileWriter(file);
-	                fr.write(t);
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	                try {
-	                    fr.close();
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            
-}
-	 public void CreateFileDirectory() 
-	 {
-		 boolean dirFlag  = false;
-		File stockDir = new File("Orders");
-		
-		try
-		{
-			dirFlag = stockDir.mkdir();
+	public int GetMenuSchedule(TimePeriod currentTimePeriod){
+		int MenuID = 0;
+		if(con == null){
+			getConnection();
 		}
-		catch(SecurityException Se)
-		{
-			System.out.println("Error marking directory"+ Se);
+		try{
+			Statement state = con.createStatement();
+			ResultSet res = state.executeQuery("SELECT menu_for_time FROM Schedule_Menu where Time_of_day =" + currentTimePeriod + ";");
+			MenuID = res.getInt ("menu_for_time");
+
+		}catch (Exception e){
+			e.printStackTrace();
 		}
-		if(dirFlag)
-		{
-			System.out.println("Directory created Successfully");
-		}
-		else
-		{
-			System.out.println("Directory already exists");
-		}
-	 }
+		return MenuID;
+	}
+	 
 }
 
 	
