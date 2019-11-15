@@ -19,16 +19,28 @@ public class LoginPanel extends  JPanel{
     private AuthController authController;
     LoginPanel(){
         username = new JTextField("", 10);
+        username.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                password.requestFocus();
+            }
+        });
+
         password = new JPasswordField("", 10);
+
+        password.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                login();
+            }
+        });
         usernameLabel = new JLabel("Username:");
         passwordLabel = new JLabel("Password:");
         login = new JButton("Login");
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                char[] enteredPassword = password.getPassword();
-                String enteredUsername = username.getText();
-                authController.authorize(enteredUsername, enteredPassword);
+                login();
             }
         });
         setLayout(new GridBagLayout());
@@ -56,5 +68,11 @@ public class LoginPanel extends  JPanel{
 
     public void addAuthController(AuthController authController){
         this.authController = authController;
+    }
+
+    private void login(){
+        char[] enteredPassword = password.getPassword();
+        String enteredUsername = username.getText();
+        authController.authorize(enteredUsername, enteredPassword);
     }
 }

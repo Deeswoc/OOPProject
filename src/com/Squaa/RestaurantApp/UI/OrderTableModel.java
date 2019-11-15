@@ -103,7 +103,7 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
         Order order = new Order();
         order.addOrderItem(list.get(0));
         order.addOrderItem(list.get(1));
-        order.addOrderItem(list.get(2));
+        order.addOrderItem(list.get(4));
         OrderTableModel model = new OrderTableModel(order);
         JFrame frame = new JFrame("Testing");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

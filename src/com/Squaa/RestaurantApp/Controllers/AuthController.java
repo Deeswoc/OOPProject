@@ -5,6 +5,7 @@ import com.Squaa.RestaurantApp.DataLogic.Level;
 import com.Squaa.RestaurantApp.DataLogic.State;
 import com.Squaa.RestaurantApp.UI.AppFrame;
 import com.Squaa.RestaurantApp.UI.CustomerMenu;
+import com.Squaa.RestaurantApp.UI.CustomerMenuViews.MenuOrderContainerView;
 import com.Squaa.RestaurantApp.UI.MainView;
 import com.Squaa.RestaurantApp.UI.ManagerMenu;
 
@@ -50,7 +51,7 @@ public class AuthController implements FrameController, AuthListener {
             CustomerMenu menu = new CustomerMenu();
             menu.setFrameController(new ManagerController(window));
             window.setJMenuBar(menu);
-            window.setView(new MainView());
+            window.setView(new MenuOrderContainerView());
             window.setVisible(false);
             window.setSize(1000, 700);
             window.setLocationRelativeTo(null);
