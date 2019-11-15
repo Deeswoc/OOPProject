@@ -102,6 +102,6 @@ public class DatabaseController {
 		
 	public void writeFile(int a, String t) 
 	{
-		db.writeFile(a, t);
+		//db.writeFile(a, t);
 	}	
 }
