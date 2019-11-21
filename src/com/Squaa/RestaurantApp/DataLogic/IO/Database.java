@@ -328,21 +328,24 @@ public class Database {
 	}
 	
 	//FOR ORDER TABLE
-	public void addOrder()
+	public ResultSet addOrder()
 	{
+		ResultSet res;
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
 			PreparedStatement prep =con.prepareStatement("INSERT INTO Orders values(null,?,?);");
-			prep.execute();
+			res = prep.execute();
 			System.out.println("Order Added\n");
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
+		
+		return res;
 	}
 	
 	public ArrayList<Order> DisplayOrders(){
