@@ -1,12 +1,11 @@
 package com.Squaa.RestaurantApp.UI;
 
-
-import com.Squaa.RestaurantApp.Controllers.AuthController;
-import com.Squaa.RestaurantApp.Controllers.DatabaseController;
 import com.Squaa.RestaurantApp.DataLogic.Dish;
+import com.Squaa.RestaurantApp.DataLogic.MenuItem;
 import com.Squaa.RestaurantApp.DataLogic.Order;
 import com.Squaa.RestaurantApp.DataLogic.OrderItem;
-import com.Squaa.RestaurantApp.DataLogic.State;
+import com.Squaa.RestaurantApp.Controllers.AuthController;
+import com.Squaa.RestaurantApp.Controllers.DatabaseController;
 import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimeChangedListener;
 import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimeFormatter;
 import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimerListener;
@@ -17,7 +16,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class OrderTableModel extends AbstractTableModel implements TimeChangedListener {
-    private Order dataset;
+	private Order dataset;
     private ArrayList<OrderItem> orderItems;
     private ArrayList<TimeChangedListener> timerDisplays;
     private int loopControl;
@@ -25,7 +24,7 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
     private int interval = 0;
 
     public OrderTableModel(Order order){
-        this.dataset = order;
+    	this.dataset = order;
         orderItems = order.getOrderItems();
         for(loopControl = 0; loopControl < orderItems.size(); loopControl++){
             orderItems.get(loopControl).setTimerListener(new TimerListener() {
@@ -128,4 +127,30 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
     public void startOrder(){
         dataset.startOrder();
     }
+    
+    public void setItemQuantity(int itemID, int quantity) {
+    	for(int i = 0; i < orderItems.size(); i++) {
+    		if(orderItems.get(i).getItemID()==itemID) {
+    			orderItems.get(i).setQuantity(quantity);
+    		}
+    	}
+    	
+    }
+    
+    public void addOrderItem(MenuItem menuItem) 
+    {
+    	orderItems.add(new OrderItem(menuItem));
+    }
+    
+    public void removeOrderItem(int orderItemID)
+    {
+    	{
+    	    for(int i = 0; i < orderItems.size(); i++) {
+    	    	if(orderItems.get(i).getItemID()==orderItemID) {
+    	    		orderItems.remove(i);
+    	    	}
+    	    }
+    	
+    }
+}
 }

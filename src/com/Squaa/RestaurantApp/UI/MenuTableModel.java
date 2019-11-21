@@ -78,4 +78,16 @@ public class MenuTableModel  extends AbstractTableModel {
     public void setDataset(ArrayList<Dish> dataset){
         this.dataset = dataset;
     }
+    
+    
+    /*Edit here*/
+    public Dish search(int id)
+    {
+    for(int i = 0; i < dataset.size(); i++) {
+    	if(dataset.get(i).getid()==id) {
+    		return dataset.get(i);
+    	}
+    }
+    return null;
+    }
 }
