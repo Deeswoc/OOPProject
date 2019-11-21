@@ -81,13 +81,5 @@ public class MenuTableModel  extends AbstractTableModel {
     
     
     /*Edit here*/
-    public Dish search(int id)
-    {
-    for(int i = 0; i < dataset.size(); i++) {
-    	if(dataset.get(i).getid()==id) {
-    		return dataset.get(i);
-    	}
-    }
-    return null;
-    }
+
 }

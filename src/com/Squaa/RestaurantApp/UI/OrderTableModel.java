@@ -139,7 +139,21 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
     
     public void addOrderItem(MenuItem menuItem) 
     {
-    	orderItems.add(new OrderItem(menuItem));
+        OrderItem orderItem = new OrderItem(menuItem);
+        orderItem.setTimerListener(new TimerListener() {
+            @Override
+            public void alarm() {
+                System.out.println("ORDER READY!!");
+            }
+        }, new TimeChangedListener() {
+            final int row = orderItems.size();
+            @Override
+            public void onChange(int sec) {
+                fireTableCellUpdated(row, 2);
+                System.out.println("Remaining time " + sec);
+            }
+        });
+    	orderItems.add(orderItem);
     }
     
     public void removeOrderItem(int orderItemID)
