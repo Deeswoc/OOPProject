@@ -80,9 +80,9 @@ public class DatabaseController {
 	}
 	
 	//FOR ORDER TABLE
-	public void addOrder()
+	public int addOrder(Order order)
 	{
-		db.addOrder();
+		return db.addOrder(order);
 	}
 	
 	public void DisplayOrders()

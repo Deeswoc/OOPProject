@@ -58,6 +58,12 @@ public class Order {
 		this.time = time;
 	}
 
+	public Order(int orderNumber, String date, String time, ArrayList<OrderItem> orderList) {
+		this.orderNumber = orderNumber;
+		this.date = date;
+		this.time = time;
+		this.order = orderList;
+	}
 	public  Order(){
 		order = new ArrayList<>();
 	}

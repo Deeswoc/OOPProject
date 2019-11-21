@@ -328,18 +328,34 @@ public class Database {
 	}
 	
 	//FOR ORDER TABLE
-	public int addOrder()
+	public int addOrder(Order order)
 	{
+		int lastInsertedRow;
 		ResultSet res=null;
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
+			PreparedStatement insertOrder = con.prepareStatement("INSERT INTO MenuItem_and_Order values (?, ?, ?)");
 			PreparedStatement state =con.prepareStatement("INSERT INTO Orders values(null,?,?);");
+			
+			LocalDate obj1 = LocalDate.now();
+			LocalTime obj2 = LocalTime.now();
+			state.setObject(2, obj1);
+			state.setObject(3, obj2);
 			res = state.executeQuery();
+			
+			lastInsertedRow = con.createStatement().executeQuery("SELECT last_insert_rowid(); as lastRow").getInt(1);
+			
+			for(OrderItem orderItem: order.getOrderItems()) {
+				insertOrder.setInt(1, orderItem.getItemID());
+				insertOrder.setInt(2, lastInsertedRow);
+				insertOrder.setInt(3, orderItem.getQuantity());
+
+			}
 			System.out.println("Order Added\n");
-			return res.getInt("Order_num");
+			return lastInsertedRow;
 		}
 		catch(SQLException e)
 		{
@@ -356,8 +372,7 @@ public class Database {
 		}
 		ArrayList <OrderItem> order =  new ArrayList<>();
 		try{
-			PreparedStatement state = con.prepareStatement("SELECT * FROM MenuItem_and_Orders join Dish on MenuItem_and_Orders.id = Dish.id" + 
-					" where Order_num = ?;");
+			PreparedStatement state = con.prepareStatement("SELECT * FROM MenuItem_and_Orders join Dish on MenuItem_and_Orders.id = Dish.id" + " where Order_num = ?;");
 			state.setInt(1,id);
 			ResultSet res = state.executeQuery();
 			while (res.next()){
@@ -395,12 +410,14 @@ public class Database {
 		Order orders = null;
 		try{
 			Statement state = con.createStatement();
+			ArrayList<OrderItem> orderList = DisplayOrders(id);
 			ResultSet res = state.executeQuery("SELECT * FROM Orders where id =" + id + ";");
-				orders = new Order(res.getInt ("Order_num"),res.getString("Date"), res.getString("Time"));
+			orders = new Order(res.getInt ("Order_num"),res.getString("Date"), res.getString("Time"), orderList);
 
 		}catch (Exception e){
 			e.printStackTrace();
 		}
+		
 		return orders;
 	}
 
@@ -439,6 +456,7 @@ public class Database {
 		}
 		return MenuID;
 	}
+
 	 
 }
 
