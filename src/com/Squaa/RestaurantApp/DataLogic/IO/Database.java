@@ -328,24 +328,46 @@ public class Database {
 	}
 	
 	//FOR ORDER TABLE
-	public ResultSet addOrder()
+	public int addOrder()
 	{
-		ResultSet res;
+		ResultSet res=null;
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
-			PreparedStatement prep =con.prepareStatement("INSERT INTO Orders values(null,?,?);");
-			res = prep.execute();
+			PreparedStatement state =con.prepareStatement("INSERT INTO Orders values(null,?,?);");
+			res = state.executeQuery();
 			System.out.println("Order Added\n");
+			return res.getInt("Order_num");
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
+		return -1;
 		
-		return res;
+		
+	}
+	
+	public ArrayList<OrderItem> DisplayOrders(int id){
+		if(con == null){
+			getConnection();
+		}
+		ArrayList <OrderItem> order =  new ArrayList<>();
+		try{
+			PreparedStatement state = con.prepareStatement("SELECT * FROM MenuItem_and_Orders join Dish on MenuItem_and_Orders.id = Dish.id" + 
+					" where Order_num = ?;");
+			state.setInt(1,id);
+			ResultSet res = state.executeQuery();
+			while (res.next()){
+				order.add(new OrderItem(new MenuItem(res.getString("name"), res.getInt("id"), res.getInt("preptime"), res.getInt("price"))));
+			}
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return order;
 	}
 	
 	public ArrayList<Order> DisplayOrders(){
