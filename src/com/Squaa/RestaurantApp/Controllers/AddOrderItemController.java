@@ -1,15 +1,5 @@
 package com.Squaa.RestaurantApp.Controllers;
 
-public class AddOrderItemController {
-public class Order() 
-{
-	
-}
-public Menu() 
-{
-	
-}
-public OrderTableModel() 
-{
-	}
+public class AddOrderItemController implements AbstractOrderController{
+
 }
