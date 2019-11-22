@@ -8,14 +8,20 @@ public class OrderItem{
 	private int quantity;
 	private MenuItem itemOrdered;
 	private Stopwatch prepTime;
-	private QuantityChangedListener quantityChangedListener;
+	private OrderChangedListener orderChangedListener;
 
 	public OrderItem(MenuItem menuItem) {
 		this.itemOrdered = menuItem;
 		prepTime = new Stopwatch();
 		quantity = 1;
 		prepTime.addTime(itemOrdered.getPrepTime());
+	}
 
+	public OrderItem(MenuItem menuItem, int quantity) {
+		this.itemOrdered = menuItem;
+		prepTime = new Stopwatch();
+		this.quantity = quantity;
+		prepTime.addTime(itemOrdered.getPrepTime());
 	}
 	public int subTotal(){
 		return itemOrdered.getCost() * quantity;
@@ -40,6 +46,7 @@ public class OrderItem{
 	}
 
 	public int incrementQuantity(){
+		prepTime.addTime(itemOrdered.getPrepTime());
 		return ++quantity;
 	}
 
@@ -57,7 +64,9 @@ public class OrderItem{
 	public int getOrderTime(){
 		return prepTime.getTimeRemaining();
 	}
-
+	public int getSubtotal(){
+		return	quantity * itemOrdered.getCost();
+	}
 	public void start(){
 		prepTime.startTimer();
 	}

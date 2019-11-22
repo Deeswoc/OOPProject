@@ -1,11 +1,9 @@
 package com.Squaa.RestaurantApp.UI;
 
-import com.Squaa.RestaurantApp.DataLogic.Dish;
-import com.Squaa.RestaurantApp.DataLogic.MenuItem;
-import com.Squaa.RestaurantApp.DataLogic.Order;
-import com.Squaa.RestaurantApp.DataLogic.OrderItem;
-import com.Squaa.RestaurantApp.Controllers.AuthController;
+import com.Squaa.RestaurantApp.Controllers.AddOrderItemController;
+import com.Squaa.RestaurantApp.DataLogic.*;
 import com.Squaa.RestaurantApp.Controllers.DatabaseController;
+import com.Squaa.RestaurantApp.DataLogic.MenuItem;
 import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimeChangedListener;
 import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimeFormatter;
 import com.Squaa.RestaurantApp.DataLogic.TimeLogic.TimerListener;
@@ -18,12 +16,13 @@ import java.util.ArrayList;
 public class OrderTableModel extends AbstractTableModel implements TimeChangedListener {
 	private Order dataset;
     private ArrayList<OrderItem> orderItems;
-    private ArrayList<TimeChangedListener> timerDisplays;
     private int loopControl;
-    private String[] columnNames = {"Dish", "Cost", "Prep Time", "Orders"};
+    private String[] columnNames = {"Dish", "Sub Total", "Prep Time", "Orders"};
     private int interval = 0;
 
+
     public OrderTableModel(Order order){
+
     	this.dataset = order;
         orderItems = order.getOrderItems();
         for(loopControl = 0; loopControl < orderItems.size(); loopControl++){
@@ -65,9 +64,12 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
         switch (columnIndex){
             case 3:
                 orderItem.setQuantity((Integer) aValue);
+                dataset.notifyOrderChangedListener();
                 fireTableRowsUpdated(rowIndex, rowIndex);
         }
     }
+
+
 
     @Override
     public int getColumnCount() {
@@ -82,7 +84,7 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
             case 0:
                 return orderItem.getName();
             case 1:
-                return orderItem.getCost();
+                return orderItem.getSubtotal();
             case 2:
                 if(orderItem.getOrderTime()!=0)
                     return TimeFormatter.getHHMMSS(orderItem.getOrderTime());
@@ -139,23 +141,42 @@ public class OrderTableModel extends AbstractTableModel implements TimeChangedLi
     
     public void addOrderItem(MenuItem menuItem) 
     {
-        OrderItem orderItem = new OrderItem(menuItem);
-        orderItem.setTimerListener(new TimerListener() {
+        for(OrderItem oi: orderItems) {
+            if (oi.getItemID() == menuItem.getid()) {
+                oi.incrementQuantity();
+                return;
+            }
+        }
+
+
+
+        TimerListener timerListener = new TimerListener() {
             @Override
             public void alarm() {
                 System.out.println("ORDER READY!!");
             }
-        }, new TimeChangedListener() {
+        };
+
+        TimeChangedListener timeChangedListener = new TimeChangedListener() {
             final int row = orderItems.size();
             @Override
             public void onChange(int sec) {
                 fireTableCellUpdated(row, 2);
                 System.out.println("Remaining time " + sec);
             }
-        });
-    	orderItems.add(orderItem);
+        };
+
+    	dataset.addOrderItem(menuItem).setTimerListener(timerListener, timeChangedListener);
     }
-    
+
+    public void quantityChanged(){
+
+    }
+
+    public void setOrderChangedListener(OrderChangedListener orderChangedListener){
+        dataset.setOrderChangedListener(orderChangedListener);
+    }
+
     public void removeOrderItem(int orderItemID)
     {
     	{

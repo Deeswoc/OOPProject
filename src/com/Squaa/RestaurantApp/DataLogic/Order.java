@@ -9,15 +9,15 @@ public class Order {
 	private int orderNumber;
 	private String date;
 	private String time;
-	public int netTotal()
-	{
-		int total = 0;
-		for(int i=0;i<order.size();i++)
-		{
-			total+=order.get(i).subTotal();
+	private OrderChangedListener orderChangedListener;
+
+	public int getMaxTime(){
+		int max = 0;
+		for(OrderItem item: order){
+			if(item.getOrderTime()>max)
+				max = item.getOrderTime();
 		}
-		
-		return total;
+		return max;
 	}
 
 	public ArrayList<OrderItem> getOrder() {
@@ -72,14 +72,26 @@ public class Order {
 		return order;
 	}
 
-	public void addOrderItem(MenuItem menuItem){
-		for (OrderItem item: order) {
-			if (item.getItemID() == menuItem.getid()) {
-				item.incrementQuantity();
-				return;
-			}
-		}
-		order.add(new OrderItem(menuItem));
+	public void notifyOrderChangedListener(){
+		orderChangedListener.onQuantityChanged(getTotal(), getMaxTime());
+	}
+
+	public OrderItem addOrderItem(MenuItem menuItem){
+		OrderItem item = new OrderItem(menuItem);
+		order.add(item);
+		notifyOrderChangedListener();
+		return item;
+	}
+
+	public int getTotal(){
+		int total = 0;
+		for(OrderItem orderItem: order)
+			total+=orderItem.subTotal();
+		return total;
+	}
+
+	public void setOrderChangedListener(OrderChangedListener orderChangedListener) {
+		this.orderChangedListener = orderChangedListener;
 	}
 
 	public void startOrder(){

@@ -337,14 +337,14 @@ public class Database {
 			getConnection();
 		}
 		try {
-			PreparedStatement insertOrder = con.prepareStatement("INSERT INTO MenuItem_and_Order values (?, ?, ?)");
+			PreparedStatement insertOrder = con.prepareStatement("INSERT INTO MenuItem_and_Orders values (?, ?, ?)");
 			PreparedStatement state =con.prepareStatement("INSERT INTO Orders values(null,?,?);");
 			
 			LocalDate obj1 = LocalDate.now();
 			LocalTime obj2 = LocalTime.now();
-			state.setObject(2, obj1);
-			state.setObject(3, obj2);
-			res = state.executeQuery();
+			state.setObject(1, obj1);
+			state.setObject(2, obj2);
+			state.executeUpdate();
 			
 			lastInsertedRow = con.createStatement().executeQuery("SELECT last_insert_rowid(); as lastRow").getInt(1);
 			
@@ -352,7 +352,7 @@ public class Database {
 				insertOrder.setInt(1, orderItem.getItemID());
 				insertOrder.setInt(2, lastInsertedRow);
 				insertOrder.setInt(3, orderItem.getQuantity());
-
+				insertOrder.executeUpdate();
 			}
 			System.out.println("Order Added\n");
 			return lastInsertedRow;
@@ -372,11 +372,11 @@ public class Database {
 		}
 		ArrayList <OrderItem> order =  new ArrayList<>();
 		try{
-			PreparedStatement state = con.prepareStatement("SELECT * FROM MenuItem_and_Orders join Dish on MenuItem_and_Orders.id = Dish.id" + " where Order_num = ?;");
+			PreparedStatement state = con.prepareStatement("SELECT * FROM MenuItem_and_Orders join Dish on MenuItem_and_Orders.id = Dish.id" + " where MenuItem_and_Orders.orderid = ?;");
 			state.setInt(1,id);
 			ResultSet res = state.executeQuery();
 			while (res.next()){
-				order.add(new OrderItem(new MenuItem(res.getString("name"), res.getInt("id"), res.getInt("preptime"), res.getInt("price"))));
+				order.add(new OrderItem(new MenuItem(res.getString("name"), res.getInt("id"), res.getInt("preptime"), res.getInt("price")), res.getInt("quantity")));
 			}
 
 		}catch (Exception e){
@@ -409,9 +409,9 @@ public class Database {
 		}
 		Order orders = null;
 		try{
-			Statement state = con.createStatement();
 			ArrayList<OrderItem> orderList = DisplayOrders(id);
-			ResultSet res = state.executeQuery("SELECT * FROM Orders where id =" + id + ";");
+			Statement state = con.createStatement();
+			ResultSet res = state.executeQuery("SELECT * FROM Orders where Order_num =" + id + ";");
 			orders = new Order(res.getInt ("Order_num"),res.getString("Date"), res.getString("Time"), orderList);
 
 		}catch (Exception e){

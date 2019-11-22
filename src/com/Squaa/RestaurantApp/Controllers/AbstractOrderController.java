@@ -2,6 +2,7 @@ package com.Squaa.RestaurantApp.Controllers;
 
 import com.Squaa.RestaurantApp.DataLogic.Order;
 import com.Squaa.RestaurantApp.UI.CustomerMenuTableModel;
+import com.Squaa.RestaurantApp.UI.CustomerMenuViews.CurrentOrderView;
 import com.Squaa.RestaurantApp.UI.CustomerMenuViews.CustomerOrderTable;
 import com.Squaa.RestaurantApp.UI.OrderTableModel;
 
@@ -14,7 +15,7 @@ public interface AbstractOrderController {
     void setOrderQuantity(int orderItemID, int orderItemQuantity);
     void addOrderItem(int menuItemID);
     void removeOrderItem(int orderItemID);
-
+    void setCurrentOrderView(CurrentOrderView currentOrderView);
     void addCustomerMenuTableModel(CustomerMenuTableModel model);
     void addOrderTableModel(OrderTableModel model);
 }

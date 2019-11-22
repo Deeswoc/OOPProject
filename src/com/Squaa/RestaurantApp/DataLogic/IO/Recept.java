@@ -3,7 +3,9 @@ package com.Squaa.RestaurantApp.DataLogic.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.swing.filechooser.FileSystemView;
 
@@ -22,21 +24,37 @@ public void writeFile(Order order)
 	{
 		File file = new File(orderPath+"//"+"Order# "+order.getOrderNumber()+".txt");// Let me know if it work on your machine
 		FileWriter fr = null;
+        PrintWriter printWriter;
 			try {
-		         	fr = new FileWriter(file);
-		            fr.write("Order #: "+order.getOrderNumber()+"\n"
-		                		+"Oder Date: "+order.getDate()+"\n"
-		                		+"Order Time: "+order.getTime()+"\n");
-		            ArrayList<OrderItem> orderItem;
-		            orderItem= order.getOrder();
-		            for(int i= 0;i<orderItem.size();i++)
-		            {
-		            	fr.write("Order Item: "+orderItem.get(i).getName()+"\n"
-		            			+"Order Quantity: "+orderItem.get(i).getQuantity()+"\n"
-		            			+"Order Cost: "+orderItem.get(i).getCost());
-		            }
-		            
-		        }
+                fr = new FileWriter(file);
+                printWriter = new PrintWriter(fr);
+                fr.write("Order #: "+order.getOrderNumber()+"\n"
+                            +"Oder Date: "+order.getDate()+"\n"
+                            +"Order Time: "+order.getTime().split(Pattern.quote("."))[0]+"\n");
+
+                printWriter.println("");
+                ArrayList<OrderItem> orderItem;
+
+                orderItem= order.getOrder();
+
+
+                printWriter.printf("\t\t%-20s%-10s%11s\n", "Description", "Quantity", "Subtotal");
+                printWriter.printf("\t\t");
+                for(int i = 0; i < 41; i++){
+                    printWriter.printf("-");
+                }
+                printWriter.println("");
+                for(int i= 0;i<orderItem.size();i++)
+                {
+                    printWriter.printf("\t\t%-20s%7d%5s$%8d\n", orderItem.get(i).getName(), orderItem.get(i).getQuantity(), "",orderItem.get(i).subTotal());
+                }
+                printWriter.printf("\t\t");
+                for(int i = 0; i < 41; i++){
+                    printWriter.printf("-");
+                }
+                printWriter.println("");
+                printWriter.printf("\t\t%-32s$%8d", "Total", order.getTotal());
+			}
 			catch (IOException e)
 			{
 				e.printStackTrace();

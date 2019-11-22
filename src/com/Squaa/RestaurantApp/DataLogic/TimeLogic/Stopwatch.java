@@ -91,6 +91,10 @@ public class Stopwatch {
         timerListeners.add(timerListener);
     }
 
+    public void setTimeRemaining(int timeRemaining){
+        interval = timeRemaining;
+    }
+
     public void addTimeChangedListener(TimeChangedListener timeChangedListener){
         timeChangedListeners.add(timeChangedListener);
     }
