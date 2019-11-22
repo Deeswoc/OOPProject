@@ -331,27 +331,27 @@ public class Database {
 	public int addOrder(Order order)
 	{
 		int lastInsertedRow;
-		ResultSet res=null;
 		if(con==null)
 		{
 			getConnection();
 		}
 		try {
-			PreparedStatement insertOrder = con.prepareStatement("INSERT INTO MenuItem_and_Order values (?, ?, ?)");
 			PreparedStatement state =con.prepareStatement("INSERT INTO Orders values(null,?,?);");
+			PreparedStatement insertOrder = con.prepareStatement("INSERT INTO MenuItem_and_Orders values (?, ?, ?)");
 			
 			LocalDate obj1 = LocalDate.now();
 			LocalTime obj2 = LocalTime.now();
-			state.setObject(2, obj1);
-			state.setObject(3, obj2);
-			res = state.executeQuery();
-			
+			state.setObject(1, obj1);
+			state.setObject(2, obj2);
+			state.execute();
 			lastInsertedRow = con.createStatement().executeQuery("SELECT last_insert_rowid(); as lastRow").getInt(1);
 			
 			for(OrderItem orderItem: order.getOrderItems()) {
 				insertOrder.setInt(1, orderItem.getItemID());
 				insertOrder.setInt(2, lastInsertedRow);
 				insertOrder.setInt(3, orderItem.getQuantity());
+				insertOrder.execute();
+				System.out.println("last row id: "+lastInsertedRow);
 
 			}
 			System.out.println("Order Added\n");
@@ -372,7 +372,7 @@ public class Database {
 		}
 		ArrayList <OrderItem> order =  new ArrayList<>();
 		try{
-			PreparedStatement state = con.prepareStatement("SELECT * FROM MenuItem_and_Orders join Dish on MenuItem_and_Orders.id = Dish.id" + " where Order_num = ?;");
+			PreparedStatement state = con.prepareStatement("SELECT * FROM MenuItem_and_Orders join Dish on MenuItem_and_Orders.id = Dish.id" + " where orderid = ?;");
 			state.setInt(1,id);
 			ResultSet res = state.executeQuery();
 			while (res.next()){
@@ -411,7 +411,7 @@ public class Database {
 		try{
 			Statement state = con.createStatement();
 			ArrayList<OrderItem> orderList = DisplayOrders(id);
-			ResultSet res = state.executeQuery("SELECT * FROM Orders where id =" + id + ";");
+			ResultSet res = state.executeQuery("SELECT * FROM Orders where Order_num =" + id + ";");
 			orders = new Order(res.getInt ("Order_num"),res.getString("Date"), res.getString("Time"), orderList);
 
 		}catch (Exception e){

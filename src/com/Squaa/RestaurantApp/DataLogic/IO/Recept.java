@@ -33,7 +33,7 @@ public void writeFile(Order order)
 		            {
 		            	fr.write("Order Item: "+orderItem.get(i).getName()+"\n"
 		            			+"Order Quantity: "+orderItem.get(i).getQuantity()+"\n"
-		            			+"Order Cost: "+orderItem.get(i).getCost());
+		            			+"Order Cost: "+orderItem.get(i).getCost()+"\n");
 		            }
 		            
 		        }
